@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "mcp_server_mysql": {
+      "command": "node",
+      "args": ["backend/node_modules/mcp-server-mysql/index.js"],
+      "env": {
+        "MYSQL_HOST": "127.0.0.1",
+        "MYSQL_PORT": "3306",
+        "MYSQL_USER": "qingadmin",
+        "MYSQL_PASS": "510105194",
+        "MYSQL_DB": "qingadmin",
+        "MYSQL_DISABLE_READ_ONLY_TRANSACTIONS": "true"
+      }
+    }
+  }
+}
