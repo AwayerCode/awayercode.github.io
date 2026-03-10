@@ -212,21 +212,31 @@ section.recent-posts {
     }
 }
 
-/* Post card - minimal style */
+/* Post card - card style with border and shadow */
 .post-card {
-    padding: 1.5rem 0;
-    border-bottom: 1px solid var(--border-color);
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-.post-card:last-child {
-    border-bottom: none;
+.post-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
 }
 
 .post-card .card-title {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
     font-family: Georgia, "Times New Roman", serif;
+    line-height: 1.3;
 }
 
 .post-card .card-title a {
@@ -240,14 +250,20 @@ section.recent-posts {
 
 .post-card .card-text {
     color: var(--text-muted);
-    font-size: 1rem;
+    font-size: 0.95rem;
     line-height: 1.6;
     margin-bottom: 0.75rem;
+    flex-grow: 1;
 }
 
 .post-card .post-meta {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
 .post-card .post-meta .post-author {
@@ -257,6 +273,29 @@ section.recent-posts {
 .post-card .post-meta .post-date::before {
     content: "·";
     margin-right: 0.5rem;
+}
+
+.post-card .post-category {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.post-card .post-category a {
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 2px 8px;
+    background: var(--bg-secondary);
+    border-radius: 4px;
+    margin-right: 0.25rem;
+    transition: all 0.2s;
+}
+
+.post-card .post-category a:hover {
+    background: var(--border-color);
+    color: var(--text-primary);
 }
 
 /* Keep original wrapfooter for compatibility */
@@ -372,9 +411,12 @@ span.post-read-more a:hover {
 }
 
 .mediumnavigation .navbar-brand {
-    font-weight: 600;
-    font-size: 1.1rem;
+    font-weight: 700;
+    font-size: 1.25rem;
     text-decoration: none;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
 }
 
 .mediumnavigation .dropdown-menu {
@@ -920,9 +962,54 @@ iframe {
 }
 
 .listrecent {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+@media (max-width: 900px) {
+    .listrecent {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .listrecent {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Category filter tabs */
+.category-tabs {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.category-tabs .category-tab {
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.category-tabs .category-tab:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.category-tabs .category-tab.active {
+    background: var(--accent-color);
+    color: var(--bg-color);
+    border-color: var(--accent-color);
 }
 
 .flex-first {

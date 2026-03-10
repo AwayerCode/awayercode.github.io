@@ -1,12 +1,19 @@
 <!-- begin post -->
 {% assign author = site.authors[post.author] %}
 
-<div class="col-12 mb-4">
+<div class="post-card-wrapper" data-categories="{{ post.categories | join:',' }}">
     <div class="post-card">
+        {% if post.categories %}
+        <div class="post-category">
+            {% for category in post.categories %}
+            <a href="{{ site.baseurl }}/category/{{ category | slugify }}/">{{ category }}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
         <h2 class="card-title">
             <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
         </h2>
-        <p class="card-text">{{ post.excerpt | strip_html | truncatewords:35 }}</p>
+        <p class="card-text">{{ post.excerpt | strip_html | truncatewords:25 }}</p>
         <div class="post-meta">
             {% if post.author %}
                 <span class="post-author">{{ author.display_name }}</span>

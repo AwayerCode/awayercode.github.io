@@ -7,7 +7,30 @@ title: Home
 ================================================== -->
 <section class="recent-posts">
 
-    <div class="row listrecent">
+    <!-- Category Filter Tabs -->
+    {% assign all_categories = "" %}
+    {% for post in site.posts %}
+        {% if post.categories %}
+            {% for category in post.categories %}
+                {% unless all_categories contains category %}
+                    {% if all_categories != "" %}
+                        {% assign all_categories = all_categories | append: "," %}
+                    {% endif %}
+                    {% assign all_categories = all_categories | append: category %}
+                {% endunless %}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+
+    <div class="category-tabs">
+        <a href="#" class="category-tab active" data-category="all">All</a>
+        {% assign categories = all_categories | split: "," | sort %}
+        {% for category in categories %}
+        <a href="#" class="category-tab" data-category="{{ category }}">{{ category }}</a>
+        {% endfor %}
+    </div>
+
+    <div class="listrecent">
 
         {% for post in paginator.posts %}
 
@@ -28,3 +51,35 @@ title: Home
 </span>
 </div>
 
+<script>
+(function() {
+    const tabs = document.querySelectorAll('.category-tab');
+    const cards = document.querySelectorAll('.post-card-wrapper');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // Update active tab
+            tabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+
+            const category = this.dataset.category;
+
+            // Filter cards
+            cards.forEach(card => {
+                if (category === 'all') {
+                    card.style.display = '';
+                } else {
+                    const cardCategories = card.dataset.categories || '';
+                    if (cardCategories.includes(category)) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        });
+    });
+})();
+</script>
