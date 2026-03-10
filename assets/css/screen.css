@@ -1,8 +1,41 @@
-/* 
-Template Name: Mediumish 
-Copyright: Sal, WowThemes.net, https://www.wowthemes.net 
-License: https://www.wowthemes.net/freebies-license/ 
+/*
+Template Name: Mediumish
+Copyright: Sal, WowThemes.net, https://www.wowthemes.net
+License: https://www.wowthemes.net/freebies-license/
 */
+
+/* CSS Variables for Light/Dark Mode */
+:root {
+  /* Light mode */
+  --bg-color: #ffffff;
+  --bg-secondary: #fafafa;
+  --text-primary: rgba(0, 0, 0, .8);
+  --text-muted: rgba(0, 0, 0, .44);
+  --border-color: #ddd;
+  --accent-color: #00ab6b;
+  --card-bg: #fff;
+  --nav-bg: rgba(255, 255, 255, .97);
+  --footer-bg: #fff;
+}
+
+[data-theme="dark"] {
+  --bg-color: #1a1a1a;
+  --bg-secondary: #2d2d2d;
+  --text-primary: #e0e0e0;
+  --text-muted: #a0a0a0;
+  --border-color: #444;
+  --accent-color: #00ab6b;
+  --card-bg: #2d2d2d;
+  --nav-bg: rgba(26, 26, 26, .97);
+  --footer-bg: #1a1a1a;
+}
+
+/* Apply CSS variables */
+body, .site-content, .main-content {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+}
+
 @media screen and (min-width:1500px) {
     html { font-size:18px; } /* Increase the font size on higher resolutions */
     .container {max-width:80%;}
@@ -39,7 +72,7 @@ pre {
 }
 
 .mediumnavigation {
-    background: rgba(255, 255, 255, .97);
+    background: var(--nav-bg);
     box-shadow: 0 2px 2px -2px rgba(0, 0, 0, .15);
     transition: top 0.2s ease-in-out;
 }
@@ -64,7 +97,7 @@ section.recent-posts {
 }
 
 .section-title h2 {
-    border-bottom: 1px solid rgba(0, 0, 0, .125);
+    border-bottom: 1px solid var(--border-color);
     margin-bottom: 25px;
     font-weight: 700;
     font-size: 1.4rem;
@@ -72,7 +105,7 @@ section.recent-posts {
 }
 
 .section-title span {
-    border-bottom: 1px solid rgba(0, 0, 0, .44);
+    border-bottom: 1px solid var(--text-muted);
     display: inline-block;
     padding-bottom: 20px;
     margin-bottom: -1px;
@@ -105,7 +138,7 @@ section.recent-posts {
 }
 
 .listfeaturedtag {
-    border: 1px solid rgba(0, 0, 0, .125);
+    border: 1px solid var(--border-color);
     border-radius: .25rem;
     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
 }
@@ -149,7 +182,7 @@ section.recent-posts {
 
 .listfeaturedtag h4.card-text,
 .listrecent h4.card-text {
-    color: rgba(0, 0, 0, .44);
+    color: var(--text-muted);
     font-size: 0.95rem;
     line-height: 1.6;
     font-weight: 400;
@@ -198,7 +231,7 @@ section.recent-posts {
 
 .post-top-meta span {
     font-size: 0.9rem;
-    color: rgba(0, 0, 0, .44);
+    color: var(--text-muted);
     display: inline-block;
 }
 
@@ -228,7 +261,7 @@ span.author-meta {
 
 span.post-date,
 span.post-read {
-    color: rgba(0, 0, 0, .44);
+    color: var(--text-muted);
 }
 
 span.post-read-more {
@@ -239,12 +272,12 @@ span.post-read-more {
 }
 
 span.post-read-more a {
-    color: rgba(0, 0, 0, .44);
+    color: var(--text-muted);
 }
 
 span.post-name a,
 span.post-read-more a:hover {
-    color: rgba(0, 0, 0, .8);
+    color: var(--text-primary);
 }
 
 .dot:after {
@@ -257,7 +290,7 @@ span.post-read-more a:hover {
     font-size: 0.8rem;
     border-radius: 30px;
     overflow: hidden;
-    border: 1px solid rgba(0, 0, 0, 0.09);
+    border: 1px solid var(--border-color);
     min-width: 180px;
 }
 
@@ -283,7 +316,7 @@ span.post-read-more a:hover {
 }
 
 .mediumnavigation .dropdown-menu {
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--border-color);
     margin: .5rem 0 0;
 }
 
@@ -314,33 +347,33 @@ span.post-read-more a:hover {
 }
 
 .footer {
-    border-top: 1px solid rgba(0, 0, 0, .05) !important;
+    border-top: 1px solid var(--border-color);
     padding-top: 15px;
     padding-bottom: 12px;
     font-size: 0.8rem;
-    color: rgba(0, 0, 0, .44);
+    color: var(--text-muted);
     margin-top: 50px;
     margin-bottom: 62px;
     position: relative;
-    background: #fff;
+    background: var(--footer-bg);
 }
 
 .link-dark {
-    color: rgba(0, 0, 0, .8);
+    color: var(--text-primary);
 }
 
 .article-post {
     font-family: Merriweather;
     font-size: 1.1rem;
     line-height: 1.84;
-    color: rgba(0, 0, 0, .8);
+    color: var(--text-primary);
 }
 
 blockquote {
-    border-left: 4px solid #00ab6b;
+    border-left: 4px solid var(--accent-color);
     padding: 0 20px;
     font-style: italic;
-    color: rgba(0, 0, 0, .5);
+    color: var(--text-muted);
 }
 
 .article-post p,
@@ -373,7 +406,7 @@ blockquote {
 }
 
 .share ul li i.fa {
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     width: 30px;
     height: 30px;
     line-height: 30px;
@@ -474,12 +507,12 @@ blockquote {
 
 .share,
 .share a {
-    color: rgba(0, 0, 0, .44);
-    fill: rgba(0, 0, 0, .44);
+    color: var(--text-muted);
+    fill: var(--text-muted);
 }
 
 .graybg {
-    background-color: #fafafa;
+    background-color: var(--bg-secondary);
     padding: 40px 0 46px;
     position: relative;
 }
@@ -501,14 +534,14 @@ ul.tags li {
 }
 
 ul.tags li a {
-    background: rgba(0, 0, 0, .05);
-    color: rgba(0, 0, 0, .6);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
     border-radius: 3px;
     padding: 5px 10px;
 }
 
 ul.tags li a:hover {
-    background: rgba(0, 0, 0, .07);
+    background: var(--border-color);
     text-decoration: none;
 }
 
@@ -556,7 +589,7 @@ ul.tags li a:hover {
     position: fixed;
     bottom: 0;
     left: 0;
-    background-color: #fff;
+    background-color: var(--card-bg);
     width: 100%;
     padding: 14px 0;
     z-index: 1;
@@ -572,7 +605,7 @@ ul.tags li a:hover {
     padding: 3px 5px 3px 10px;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-right: 0;
     margin-right: -10px;
     height: 34px;
@@ -597,23 +630,23 @@ ul.tags li a:hover {
 }
 
 .form-control::-webkit-input-placeholder {
-    color: rgba(0, 0, 0, .5);
+    color: var(--text-muted);
 }
 
 .form-control:-moz-placeholder {
-    color: rgba(0, 0, 0, .5);
+    color: var(--text-muted);
 }
 
 .form-control::-moz-placeholder {
-    color: rgba(0, 0, 0, .5);
+    color: var(--text-muted);
 }
 
 .form-control:-ms-input-placeholder {
-    color: rgba(0, 0, 0, .5);
+    color: var(--text-muted);
 }
 
 .form-control::-ms-input-placeholder {
-    color: rgba(0, 0, 0, .5);
+    color: var(--text-muted);
 }
 
 .authorpage h1 {
@@ -627,7 +660,7 @@ ul.tags li a:hover {
 
 .authorpage .author-description {
     font-size: 1rem;
-    color: rgba(0, 0, 0, .6);
+    color: var(--text-muted);
 }
 
 .post-top-meta.authorpage .btn.follow {
@@ -729,8 +762,8 @@ img {
     padding: 15px 0 0 0;
     text-align: center;
     margin-bottom: 0rem;
-    color: #999;
-    border-top: 1px solid #ddd;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border-color);
 }
 
 .pointerup {
@@ -898,4 +931,81 @@ iframe {
 .lazyimg[data-srcset] {
     opacity: 0;
     transition: opacity .25s;
+}
+
+/* Dark mode toggle button */
+.theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 12px;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    transition: color 0.2s;
+}
+
+.theme-toggle:hover {
+    color: var(--accent-color);
+}
+
+.theme-toggle-light,
+.theme-toggle-dark {
+    display: none;
+}
+
+:root .theme-toggle-dark {
+    display: inline;
+}
+
+[data-theme="dark"] .theme-toggle-light {
+    display: inline;
+}
+
+[data-theme="dark"] .theme-toggle-dark {
+    display: none;
+}
+
+/* Additional dark mode adjustments */
+[data-theme="dark"] .navbar-toggler-icon {
+    filter: invert(1);
+}
+
+[data-theme="dark"] .form-control {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .mediumnavigation .search-icon {
+    filter: invert(0.8);
+}
+
+[data-theme="dark"] .graybg {
+    background-color: var(--bg-secondary);
+}
+
+/* Dark mode for cards */
+[data-theme="dark"] .listrecent .card,
+[data-theme="dark"] .listfeaturedtag .card {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .listrecent .card h2.card-title a,
+[data-theme="dark"] .listfeaturedtag .card h2.card-title a {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .wrapfooter {
+    border-top-color: var(--border-color);
+}
+
+/* Dark mode for navbar */
+[data-theme="dark"] .navbar-light {
+    background-color: var(--nav-bg) !important;
+}
+
+[data-theme="dark"] .navbar-light .navbar-brand,
+[data-theme="dark"] .navbar-light .nav-link {
+    color: var(--text-primary);
 }
