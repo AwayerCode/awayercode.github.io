@@ -6,7 +6,11 @@
 
 <link rel="icon" href="{{ site.baseurl }}/assets/images/logo.png">
 
-<title>{{ page.title }} | {{site.name}}</title>
+{% if page.url == "/" or page.title == "Home" %}
+<title>Awayer's Blog</title>
+{% else %}
+<title>{{ page.title }} - Awayer's Blog</title>
+{% endif %}
 
 {% seo %}
 
@@ -82,7 +86,6 @@ ga('send', 'pageview');
                     </button>
                 </li>
 
-                {% include search-lunr.html %}
 
             </ul>
 
@@ -98,12 +101,6 @@ ga('send', 'pageview');
 <div class="site-content">
 
 <div class="container">
-
-<!-- Site Title
-================================================== -->
-<div class="mainheading">
-    <h1 class="sitetitle">{{ site.name }}</h1>
-</div>
 
 <!-- Content
 ================================================== -->

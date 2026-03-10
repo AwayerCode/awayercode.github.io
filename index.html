@@ -5,6 +5,68 @@ title: Home
 
 <!-- Posts Index
 ================================================== -->
+<style>
+.category-tabs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 0 0.5rem;
+}
+
+.category-tabs-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.category-tabs-search {
+    flex-shrink: 0;
+}
+
+.search-input {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    width: 180px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #333;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+}
+
+[data-theme="dark"] .search-input {
+    background: #2d2d2d;
+    border-color: #444;
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .search-input:focus {
+    border-color: #666;
+}
+
+@media (max-width: 576px) {
+    .category-tabs {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .category-tabs-search {
+        width: 100%;
+    }
+
+    .search-input {
+        width: 100%;
+    }
+}
+</style>
+
 <section class="recent-posts">
 
     <!-- Category Filter Tabs -->
@@ -23,11 +85,16 @@ title: Home
     {% endfor %}
 
     <div class="category-tabs">
-        <a href="#" class="category-tab active" data-category="all">All</a>
-        {% assign categories = all_categories | split: "," | sort %}
-        {% for category in categories %}
-        <a href="#" class="category-tab" data-category="{{ category }}">{{ category }}</a>
-        {% endfor %}
+        <div class="category-tabs-list">
+            <a href="#" class="category-tab active" data-category="all">All</a>
+            {% assign categories = all_categories | split: "," | sort %}
+            {% for category in categories %}
+            <a href="#" class="category-tab" data-category="{{ category }}">{{ category }}</a>
+            {% endfor %}
+        </div>
+        <div class="category-tabs-search">
+            <input type="text" id="search-input" class="search-input" placeholder="Search..." />
+        </div>
     </div>
 
     <div class="listrecent">
@@ -55,6 +122,31 @@ title: Home
 (function() {
     const tabs = document.querySelectorAll('.category-tab');
     const cards = document.querySelectorAll('.post-card-wrapper');
+    const searchInput = document.getElementById('search-input');
+
+    let currentCategory = 'all';
+    let currentSearch = '';
+
+    function filterCards() {
+        cards.forEach(card => {
+            const cardCategories = card.dataset.categories || '';
+            const cardTitle = card.querySelector('.card-title')?.textContent?.toLowerCase() || '';
+            const cardText = card.querySelector('.card-text')?.textContent?.toLowerCase() || '';
+            const cardContent = cardTitle + ' ' + cardText;
+
+            // Category filter
+            let categoryMatch = currentCategory === 'all' || cardCategories.includes(currentCategory);
+
+            // Search filter
+            let searchMatch = currentSearch === '' || cardContent.includes(currentSearch.toLowerCase());
+
+            if (categoryMatch && searchMatch) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
 
     tabs.forEach(tab => {
         tab.addEventListener('click', function(e) {
@@ -64,22 +156,16 @@ title: Home
             tabs.forEach(t => t.classList.remove('active'));
             this.classList.add('active');
 
-            const category = this.dataset.category;
-
-            // Filter cards
-            cards.forEach(card => {
-                if (category === 'all') {
-                    card.style.display = '';
-                } else {
-                    const cardCategories = card.dataset.categories || '';
-                    if (cardCategories.includes(category)) {
-                        card.style.display = '';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                }
-            });
+            currentCategory = this.dataset.category;
+            filterCards();
         });
     });
+
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            currentSearch = this.value;
+            filterCards();
+        });
+    }
 })();
 </script>
