@@ -1,0 +1,66 @@
+# Site Settings
+name: "Awayer's Blog"
+title: "Awayer's Blog"
+description: "A personal blog about technology, programming, and life."
+logo: 'assets/images/logo.png'
+favicon: 'assets/images/logo.png'
+baseurl: ""
+url: "https://awayer.github.io"
+google_analytics: ''
+disqus: ''
+mailchimp-list: ''
+include: ["_pages"]
+permalink: /:title/
+
+# Author
+authors:
+  awayer:
+    name: Awayer
+    display_name: Awayer
+    avatar: 'assets/images/avatar.png'
+    email: ''
+    web: https://github.com/awayer
+    twitter: https://twitter.com/awayer
+    description: "Developer & Writer"
+
+# Build Settings
+markdown: kramdown
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: true
+
+# Timezone
+timezone: Asia/Shanghai
+
+# Pagination
+paginate: 6
+paginate_path: /page:num/
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-paginate
+  - jekyll-archives
+
+# Archives
+jekyll-archives:
+  enabled:
+    - categories
+  layout: archive
+  permalinks:
+    category: '/category/:name/'
+
+# Adsense
+adsense: "disabled"
+
+# Lazy Images
+lazyimages: "disabled"
+
+# Exclude from processing
+exclude: [changelog.md, LICENSE.txt, README.md, Gemfile, Gemfile.lock]
