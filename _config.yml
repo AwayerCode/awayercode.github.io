@@ -5,7 +5,7 @@ description: "A personal blog about technology, programming, and life."
 logo: 'assets/images/logo.png'
 favicon: 'assets/images/logo.png'
 baseurl: ""
-url: "https://awayer.github.io"
+url: "https://awayercode.github.io"
 google_analytics: ''
 disqus: ''
 mailchimp-list: ''
