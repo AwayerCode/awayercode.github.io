@@ -1,59 +1,84 @@
 ---
 import { getCollection } from "astro:content";
-import BaseLayout from "../layouts/BaseLayout.astro";
-import PostCard from "../components/PostCard.astro";
-import { collectTags, sortPosts } from "../lib/posts";
+import Container from "@components/Container.astro";
+import PageLayout from "@layouts/PageLayout.astro";
+import ArrowCard from "@components/ArrowCard.astro";
+import Link from "@components/Link.astro";
+import { SITE, HOME, SOCIALS } from "@consts";
 
-const posts = sortPosts(await getCollection("posts"));
-const featuredPosts = posts.slice(0, 3);
-const tags = collectTags(posts).slice(0, 8);
+const blog = (await getCollection("blog"))
+  .filter(post => !post.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0,SITE.NUM_POSTS_ON_HOMEPAGE);
 ---
 
-<BaseLayout title="Awayer's Blog" description="关于技术、写作与长期思考的公开文章集合。">
-  <section class="hero">
-    <div class="hero-copy">
-      <p class="eyebrow">TECHNOLOGY · WRITING · SYSTEMS</p>
-      <h1>把长期积累的内部知识，写成可以被阅读的公开文章。</h1>
-      <p class="hero-text">
-        这里发布的是从私有知识仓中筛选出来、经过整理后值得公开分享的内容。它不是完整知识库镜像，而是一份更适合公开阅读的表达层。
-      </p>
-      <div class="hero-actions">
-        <a class="button-primary" href="/posts/">阅读文章</a>
-        <a class="button-secondary" href="/tags/">浏览标签</a>
-      </div>
-    </div>
-    <div class="hero-panel">
-      <p class="hero-panel__label">Publishing Model</p>
-      <ol class="hero-panel__steps">
-        <li>在私有仓持续写作和整理</li>
-        <li>只把确定公开的内容放入 `5-Public/`</li>
-        <li>同步到独立公开仓并部署成博客</li>
-      </ol>
-    </div>
-  </section>
+<PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
+  <Container>
+    <h4 class="animate font-semibold text-black dark:text-white">
+      Awayer&apos;s Blog
+    </h4>
+    <div class="space-y-16">
+      <section>
+        <article class="space-y-4">
+          <p class="animate">
+            这里不是完整知识库镜像，而是一层公开表达。文章先在私有知识仓中写作和整理，只有明确适合公开的内容，才会进入
+            <code>5-Public/</code>
+            并发布到这个博客。
+          </p>
+          <p class="animate">
+            这样做的好处是，内部判断、任务推进和零散草稿仍然留在私有仓里；公开站只承担“可被阅读的文章”这一层职责。
+          </p>
+          <p class="animate">
+            站点基于
+            <Link href="https://astro.build/themes/details/astronano/" aria-label="Astronano theme" external>
+              Astronano
+            </Link>
+            模板重建，并保留一条明确的手动发布链路。
+          </p>
+        </article>
+      </section>
 
-  <section class="section-block">
-    <div class="section-heading">
-      <h2>最新文章</h2>
-      <a href="/posts/">查看全部</a>
-    </div>
-    <div class="post-grid">
-      {featuredPosts.map((post) => <PostCard post={post} />)}
-    </div>
-  </section>
+      <section class="animate space-y-6">
+        <div class="flex flex-wrap gap-y-2 items-center justify-between">
+          <h5 class="font-semibold text-black dark:text-white">
+            Latest posts
+          </h5>
+          <Link href="/blog">
+            See all posts
+          </Link>
+        </div>
+        <ul class="flex flex-col gap-4">
+          {blog.map(post => (
+            <li>
+              <ArrowCard entry={post} />
+            </li>
+          ))}
+        </ul>
+      </section>
 
-  <section class="section-block">
-    <div class="section-heading">
-      <h2>常用标签</h2>
-      <a href="/tags/">完整标签页</a>
+      <section class="animate space-y-4">
+        <h5 class="font-semibold text-black dark:text-white">
+          Publishing Model
+        </h5>
+        <article>
+          <p>
+            公开发布始终遵循同一条链路：私有仓写作，挑选进入
+            <code>5-Public/</code>
+            ，再同步到独立公开仓并由 GitHub Pages 部署。
+          </p>
+        </article>
+        <ul class="flex flex-wrap gap-2">
+          {SOCIALS.map(SOCIAL => (
+            <li class="flex gap-x-2 text-nowrap">
+              <Link href={SOCIAL.HREF} external aria-label={`${SITE.NAME} on ${SOCIAL.NAME}`}>
+                {SOCIAL.NAME}
+              </Link>
+              {"/"}
+            </li>
+          ))}
+          <li class="line-clamp-1">rss.xml</li>
+        </ul>
+      </section>
     </div>
-    <div class="tag-cloud">
-      {tags.map((tag) => (
-        <a class="tag-cloud__item" href={`/tags/${tag.slug}/`}>
-          <span>{tag.label}</span>
-          <strong>{tag.count}</strong>
-        </a>
-      ))}
-    </div>
-  </section>
-</BaseLayout>
+  </Container>
+</PageLayout>

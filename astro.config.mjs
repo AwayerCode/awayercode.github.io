@@ -1,9 +1,11 @@
 import { defineConfig } from "astro/config";
+import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
+import tailwind from "@astrojs/tailwind";
 
 export default defineConfig({
   site: "https://awayercode.github.io",
   output: "static",
   trailingSlash: "always",
-  integrations: [sitemap()],
+  integrations: [mdx(), sitemap(), tailwind()],
 });
