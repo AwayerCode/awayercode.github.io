@@ -1,0 +1,25 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { collectTags, sortPosts } from "../../lib/posts";
+
+const posts = sortPosts(await getCollection("posts"));
+const tags = collectTags(posts);
+---
+
+<BaseLayout title="标签 | Awayer's Blog" description="按标签浏览 Awayer's Blog 中的公开文章。">
+  <section class="page-intro">
+    <p class="eyebrow">TAGS</p>
+    <h1>标签</h1>
+    <p>按主题组织公开文章，方便快速回到同一条思路线上。</p>
+  </section>
+
+  <section class="tag-cloud">
+    {tags.map((tag) => (
+      <a class="tag-cloud__item" href={`/tags/${tag.slug}/`}>
+        <span>{tag.label}</span>
+        <strong>{tag.count}</strong>
+      </a>
+    ))}
+  </section>
+</BaseLayout>

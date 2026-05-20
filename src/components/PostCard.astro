@@ -1,0 +1,28 @@
+---
+import type { BlogPost } from "../lib/posts";
+import { formatDate, getPostSlug, resolvePostAsset } from "../lib/posts";
+
+interface Props {
+  post: BlogPost;
+}
+
+const { post } = Astro.props;
+const postUrl = `/posts/${getPostSlug(post)}/`;
+const coverUrl = resolvePostAsset(post, post.data.cover);
+---
+
+<article class="post-card">
+  <a class="post-card__cover" href={postUrl}>
+    <img src={coverUrl} alt={post.data.title} loading="lazy" />
+  </a>
+  <div class="post-card__content">
+    <p class="eyebrow">{formatDate(post.data.date)}</p>
+    <h3>
+      <a href={postUrl}>{post.data.title}</a>
+    </h3>
+    <p>{post.data.description}</p>
+    <div class="tag-row">
+      {post.data.tags.map((tag) => <span class="tag-chip">{tag}</span>)}
+    </div>
+  </div>
+</article>

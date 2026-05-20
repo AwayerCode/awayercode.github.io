@@ -1,0 +1,51 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { formatDate, getPostSlug, resolvePostAsset, sortPosts } from "../../lib/posts";
+
+export async function getStaticPaths() {
+  const posts = sortPosts(await getCollection("posts"));
+
+  return posts.map((post) => ({
+    params: { slug: getPostSlug(post) },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const coverUrl = resolvePostAsset(post, post.data.cover);
+---
+
+<BaseLayout title={`${post.data.title} | Awayer's Blog`} description={post.data.description}>
+  <article class="post-shell">
+    <header class="post-hero">
+      <p class="eyebrow">{formatDate(post.data.date)}</p>
+      <h1>{post.data.title}</h1>
+      <p class="post-hero__description">{post.data.description}</p>
+      <div class="tag-row">
+        {post.data.tags.map((tag) => <span class="tag-chip">{tag}</span>)}
+      </div>
+      <img class="post-hero__cover" src={coverUrl} alt={post.data.title} />
+    </header>
+
+    <div class:list={["post-body", headings.length > 0 && "post-body--with-toc"]}>
+      {headings.length > 0 && (
+        <aside class="post-toc">
+          <p>目录</p>
+          <ol>
+            {headings.map((heading) => (
+              <li>
+                <a href={`#${heading.slug}`}>{heading.text}</a>
+              </li>
+            ))}
+          </ol>
+        </aside>
+      )}
+
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+  </article>
+</BaseLayout>
