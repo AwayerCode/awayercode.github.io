@@ -1,12 +1,12 @@
 # awayercode.github.io
 
-`Awayer's Blog` 的公开站点仓库。
+公开博客站点，视觉基于官方 `Astronano` 模板。
 
-## 约定
+## 内容来源
 
-- 站点技术栈使用 `Astro`
-- 文章内容由私有仓 `Knowledge/5-Public/` 同步而来
-- 这个仓库不作为正文写作入口
+- 正文写作发生在私有仓 `Knowledge`
+- 只有进入 `Knowledge/5-Public/` 的文章会发布到这里
+- 公开仓不作为正文写作入口
 
 ## 本地开发
 
@@ -15,9 +15,9 @@ npm install
 npm run dev
 ```
 
-## 内容同步
+## 发布方式
 
-由私有仓脚本 `.scripts/publish-public-site.sh` 负责把 `5-Public/` 同步到：
+由私有仓脚本 `Knowledge/.scripts/publish-public-site.sh` 同步文章到：
 
-- `src/content/posts/`
-- `public/posts/`
+- `src/content/blog/<slug>/index.md`
+- `src/content/blog/<slug>/` 下的同目录素材
