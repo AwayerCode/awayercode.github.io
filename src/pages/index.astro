@@ -1,0 +1,59 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PostCard from "../components/PostCard.astro";
+import { collectTags, sortPosts } from "../lib/posts";
+
+const posts = sortPosts(await getCollection("posts"));
+const featuredPosts = posts.slice(0, 3);
+const tags = collectTags(posts).slice(0, 8);
+---
+
+<BaseLayout title="Awayer's Blog" description="关于技术、写作与长期思考的公开文章集合。">
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">TECHNOLOGY · WRITING · SYSTEMS</p>
+      <h1>把长期积累的内部知识，写成可以被阅读的公开文章。</h1>
+      <p class="hero-text">
+        这里发布的是从私有知识仓中筛选出来、经过整理后值得公开分享的内容。它不是完整知识库镜像，而是一份更适合公开阅读的表达层。
+      </p>
+      <div class="hero-actions">
+        <a class="button-primary" href="/posts/">阅读文章</a>
+        <a class="button-secondary" href="/tags/">浏览标签</a>
+      </div>
+    </div>
+    <div class="hero-panel">
+      <p class="hero-panel__label">Publishing Model</p>
+      <ol class="hero-panel__steps">
+        <li>在私有仓持续写作和整理</li>
+        <li>只把确定公开的内容放入 `5-Public/`</li>
+        <li>同步到独立公开仓并部署成博客</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="section-heading">
+      <h2>最新文章</h2>
+      <a href="/posts/">查看全部</a>
+    </div>
+    <div class="post-grid">
+      {featuredPosts.map((post) => <PostCard post={post} />)}
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="section-heading">
+      <h2>常用标签</h2>
+      <a href="/tags/">完整标签页</a>
+    </div>
+    <div class="tag-cloud">
+      {tags.map((tag) => (
+        <a class="tag-cloud__item" href={`/tags/${tag.slug}/`}>
+          <span>{tag.label}</span>
+          <strong>{tag.count}</strong>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
