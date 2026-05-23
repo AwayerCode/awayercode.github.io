@@ -1,73 +1,98 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import '@fontsource-variable/inter' layer(base);
+@import '@fontsource-variable/newsreader' layer(base);
+@import '@fontsource-variable/newsreader/wght-italic.css' layer(base);
 
-html {
-  overflow-y: scroll;
-  color-scheme: light;
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+    --text-main: #171717;
+    --bg-main: #f2f1ec;
+    --bg-muted: #eae9e1;
+    --border-main: #171717;
 }
-
 html.dark {
-  color-scheme: dark;
+    --text-main: #f2f1ec;
+    --bg-main: #171717;
+    --bg-muted: #242424;
+    --border-main: #f2f1ec;
 }
 
-html,
-body {
-  @apply size-full;
+/* Cyan */
+/*
+:root {
+    --text-main: #162a2b;
+    --bg-main: #d6e0e2;
+    --bg-muted: #ccd8db;
+    --border-main: #162a2b;
 }
-
-body {
-  @apply font-sans antialiased;
-  @apply flex flex-col;
-  @apply bg-stone-100 dark:bg-stone-900;
-  @apply text-black/50 dark:text-white/75;
+html.dark {
+    --text-main: #d6e0e2;
+    --bg-main: #162a2b;
+    --bg-muted: #1c3537;
+    --border-main: #d6e0e2;
 }
+*/
 
-header {
-  @apply fixed top-0 left-0 right-0 z-50 py-5;
-  @apply bg-stone-100/75 dark:bg-stone-900/25;
-  @apply backdrop-blur-sm saturate-200;
+/* Green */
+/*
+:root {
+    --text-main: #3a4238;
+    --bg-main: #f3efe6;
+    --bg-muted: #eee9dc;
+    --border-main: #3a4238;
 }
-
-main {
-  @apply flex-1 py-32;
+html.dark {
+    --text-main: #f3efe6;
+    --bg-main: #5e6c5b;
+    --bg-muted: #596756;
+    --border-main: #f3efe6;
 }
+*/
 
-footer {
-  @apply py-5 text-sm;
-}
-
-article {
-  @apply max-w-full prose dark:prose-invert prose-img:mx-auto prose-img:my-auto;
-  @apply prose-headings:font-semibold prose-p:font-serif;
-  @apply prose-headings:text-black prose-headings:dark:text-white;
+@theme inline {
+    --font-sans: 'Inter Variable', sans-serif;
+    --font-serif: 'Newsreader Variable', serif;
+    --text-color-main: var(--text-main);
+    --background-color-main: var(--bg-main);
+    --background-color-muted: var(--bg-muted);
+    --border-color-main: var(--border-main);
 }
 
 @layer utilities {
-  article a {
-    @apply font-sans text-current underline underline-offset-2;
-    @apply decoration-black/15 dark:decoration-white/30;
-    @apply transition-colors duration-300 ease-in-out;
-  }
-  article a:hover {
-    @apply text-black dark:text-white;
-    @apply decoration-black/25 dark:decoration-white/50;
-  }
-}
+    .prose {
+        --tw-prose-body: var(--text-color-main);
+        --tw-prose-headings: var(--text-color-main);
+        --tw-prose-lead: var(--text-color-main);
+        --tw-prose-links: var(--text-color-main);
+        --tw-prose-bold: var(--text-color-main);
+        --tw-prose-counters: var(--text-color-main);
+        --tw-prose-bullets: var(--text-color-main);
+        --tw-prose-hr: var(--border-color-main);
+        --tw-prose-quotes: var(--text-color-main);
+        --tw-prose-quote-borders: var(--border-color-main);
+        --tw-prose-captions: var(--text-color-main);
+        --tw-prose-kbd: var(--text-color-main);
+        --tw-prose-code: var(--text-color-main);
+        --tw-prose-th-borders: var(--border-color-main);
+        --tw-prose-td-borders: var(--border-color-main);
+    }
 
-.animate {
-  @apply opacity-0 translate-y-3;
-  @apply transition-all duration-700 ease-out;
-}
+    .prose a {
+        @apply underline font-normal decoration-1 underline-offset-2 decoration-dashed hover:decoration-solid;
+    }
 
-.animate.show {
-  @apply opacity-100 translate-y-0;
-}
+    .prose :where(h1, h2, h3, h4, h5, h6) {
+        @apply font-serif font-medium;
+    }
 
-html #back-to-top {
-  @apply opacity-0 pointer-events-none;
-}
+    .prose :where(code, strong) {
+        @apply font-medium;
+    }
 
-html.scrolled #back-to-top {
-  @apply opacity-100 pointer-events-auto;
+    .prose blockquote {
+        @apply font-serif font-normal italic border-none pl-0 text-[1.375em] leading-snug sm:text-[1.66667em];
+    }
 }
