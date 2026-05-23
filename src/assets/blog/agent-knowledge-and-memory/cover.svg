@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Agent 知识体系与记忆系统封面</title>
+  <desc id="desc">一张用于文章封面的抽象示意图，表达记忆、检索与上下文装配。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f7f2ea" />
+      <stop offset="48%" stop-color="#d9e5e2" />
+      <stop offset="100%" stop-color="#9fb7c9" />
+    </linearGradient>
+    <linearGradient id="panel" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#132238" />
+      <stop offset="100%" stop-color="#1f4d5d" />
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)" />
+  <circle cx="1330" cy="180" r="190" fill="#ffffff" opacity="0.42" />
+  <circle cx="260" cy="760" r="220" fill="#132238" opacity="0.08" />
+  <rect x="120" y="150" width="1360" height="600" rx="40" fill="#ffffff" opacity="0.68" />
+  <rect x="160" y="190" width="520" height="470" rx="28" fill="url(#panel)" />
+  <rect x="760" y="220" width="620" height="90" rx="18" fill="#ffffff" />
+  <rect x="760" y="345" width="500" height="72" rx="18" fill="#ffffff" opacity="0.88" />
+  <rect x="760" y="452" width="560" height="72" rx="18" fill="#ffffff" opacity="0.82" />
+  <rect x="760" y="559" width="430" height="72" rx="18" fill="#ffffff" opacity="0.78" />
+  <path d="M690 340C740 340 742 265 760 265" fill="none" stroke="#1f4d5d" stroke-width="8" stroke-linecap="round" />
+  <path d="M690 425C770 425 760 381 760 381" fill="none" stroke="#1f4d5d" stroke-width="8" stroke-linecap="round" />
+  <path d="M690 510C780 510 760 488 760 488" fill="none" stroke="#1f4d5d" stroke-width="8" stroke-linecap="round" />
+  <path d="M690 595C760 595 760 595 760 595" fill="none" stroke="#1f4d5d" stroke-width="8" stroke-linecap="round" />
+  <circle cx="520" cy="285" r="22" fill="#f7d58a" />
+  <circle cx="520" cy="398" r="22" fill="#7fc4b2" />
+  <circle cx="520" cy="511" r="22" fill="#9fb7c9" />
+  <circle cx="520" cy="624" r="22" fill="#f2a67f" />
+  <text x="220" y="295" fill="#f7f2ea" font-size="34" font-family="'Helvetica Neue', Arial, sans-serif" letter-spacing="2">AGENT</text>
+  <text x="220" y="390" fill="#ffffff" font-size="66" font-family="'Georgia', serif" font-weight="700">知识体系</text>
+  <text x="220" y="470" fill="#ffffff" font-size="66" font-family="'Georgia', serif" font-weight="700">与记忆系统</text>
+  <text x="220" y="560" fill="#d9e5e2" font-size="28" font-family="'Helvetica Neue', Arial, sans-serif">
+    Memory · Retrieval · Context Assembly
+  </text>
+  <text x="810" y="277" fill="#132238" font-size="28" font-family="'Helvetica Neue', Arial, sans-serif">短期记忆 / 长期记忆</text>
+  <text x="810" y="397" fill="#132238" font-size="28" font-family="'Helvetica Neue', Arial, sans-serif">多级存储 / 多级索引</text>
+  <text x="810" y="504" fill="#132238" font-size="28" font-family="'Helvetica Neue', Arial, sans-serif">RAG / 知识检索 / 上下文装配</text>
+  <text x="810" y="611" fill="#132238" font-size="28" font-family="'Helvetica Neue', Arial, sans-serif">可恢复 · 可演化 · 可追溯</text>
+</svg>
