@@ -6,83 +6,53 @@ const siteConfig: SiteConfig = {
     website: 'https://example.com',
     avatar: {
         src: avatar,
-        alt: 'Ethan Donovan'
+        alt: 'Awayer'
     },
-    title: 'Dante',
-    subtitle: 'Minimal Astro.js theme',
-    description: 'Astro.js and Tailwind CSS theme for blog and portfolio by justgoodui.com',
+    title: 'Awayer',
+    subtitle: '中文写作为主的个人博客',
+    description: '一个以中文内容为主的博客与项目展示站点。',
     image: {
         src: '/dante-preview.jpg',
-        alt: 'Dante - Astro.js and Tailwind CSS theme'
+        alt: 'Awayer 站点预览图'
     },
     headerNavLinks: [
         {
-            text: 'Home',
+            text: '首页',
             href: '/'
         },
         {
-            text: 'Projects',
+            text: '项目',
             href: '/projects'
         },
         {
-            text: 'Blog',
+            text: '文章',
             href: '/blog'
         },
         {
-            text: 'Tags',
+            text: '标签',
             href: '/tags'
         }
     ],
-    footerNavLinks: [
-        {
-            text: 'About',
-            href: '/about'
-        },
-        {
-            text: 'Contact',
-            href: '/contact'
-        },
-        {
-            text: 'Terms',
-            href: '/terms'
-        },
-        {
-            text: 'Download theme',
-            href: 'https://github.com/JustGoodUI/dante-astro-theme'
-        }
-    ],
-    socialLinks: [
-        {
-            text: 'Dribbble',
-            href: 'https://dribbble.com/'
-        },
-        {
-            text: 'Instagram',
-            href: 'https://instagram.com/'
-        },
-        {
-            text: 'X/Twitter',
-            href: 'https://twitter.com/'
-        }
-    ],
+    footerNavLinks: [],
+    socialLinks: [],
     hero: {
-        title: 'Hi There & Welcome to My Corner of the Web!',
-        text: "I'm **Ethan Donovan**, a web developer at Amazing Studio, dedicated to the realms of collaboration and artificial intelligence.\nMy approach involves embracing intuition, conducting just enough research, and leveraging aesthetics as a catalyst for exceptional products.\nI have a profound appreciation for top-notch software, visual design, and the principles of product-led growth.\n\nFeel free to explore some of my coding endeavors on [GitHub](https://github.com/JustGoodUI/dante-astro-theme) or follow me on [Twitter/X](https://twitter.com/justgoodui).",
+        title: '你好，欢迎来到我的公开写作空间。',
+        text: '这里主要整理适合公开阅读的中文内容，包括技术记录、长期思考，以及一些仍在发展中的项目线索。\n我希望把这里做成一个轻量、安静、可以长期更新的个人站点。',
         image: {
             src: hero,
-            alt: 'A person sitting at a desk in front of a computer'
+            alt: '坐在桌前工作的人'
         },
         actions: [
             {
-                text: 'Get in Touch',
-                href: '/contact'
+                text: '查看文章',
+                href: '/blog'
             }
         ]
     },
     subscribe: {
-        enabled: true,
-        title: 'Subscribe to Dante Newsletter',
-        text: 'One update per week. All the latest posts directly in your inbox.',
+        enabled: false,
+        title: '订阅更新',
+        text: '有新文章时再来通知你，不打扰，不刷屏。',
         form: {
             action: '#'
         }
