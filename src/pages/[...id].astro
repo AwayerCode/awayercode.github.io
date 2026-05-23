@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, getCollection, render } from 'astro:content';
+import EmptyState from '../components/EmptyState.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
@@ -17,6 +18,7 @@ type Props = { page: CollectionEntry<'pages'> };
 const { page } = Astro.props;
 const { title, seo } = page.data;
 const { Content } = await render(page);
+const hasContent = Boolean(page.body?.trim());
 ---
 
 <BaseLayout title={seo?.title ?? title} description={seo?.description} image={seo?.image} showHeader={false}>
@@ -24,8 +26,14 @@ const { Content } = await render(page);
         <header class="mb-8">
             <h1 class="font-serif text-3xl leading-tight font-medium sm:text-5xl sm:leading-tight">{title}</h1>
         </header>
-        <div class="prose sm:prose-lg max-w-none">
-            <Content />
-        </div>
+        {
+            hasContent ? (
+                <div class="prose sm:prose-lg max-w-none">
+                    <Content />
+                </div>
+            ) : (
+                <EmptyState message="页面内容待补充。请按 rule.md 规则填写对应内容文件。" />
+            )
+        }
     </article>
 </BaseLayout>

@@ -1,18 +1,44 @@
 ---
 import type { GetStaticPathsOptions, Page } from 'astro';
 import { type CollectionEntry, getCollection } from 'astro:content';
+import EmptyState from '../../components/EmptyState.astro';
 import Pagination from '../../components/Pagination.astro';
 import PostPreview from '../../components/PostPreview.astro';
 import siteConfig from '../../data/site-config';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { hasContentFiles } from '../../utils/content-files';
 import { sortItemsByDateDesc } from '../../utils/data-utils';
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
-    const posts = (await getCollection('blog')).sort(sortItemsByDateDesc);
+    const posts = hasContentFiles('src/content/blog')
+        ? (await getCollection('blog')).sort(sortItemsByDateDesc)
+        : [];
+    if (posts.length === 0) {
+        return [
+            {
+                params: { page: undefined },
+                props: {
+                    page: {
+                        data: [],
+                        url: { prev: undefined, next: undefined },
+                        currentPage: 1,
+                        lastPage: 1
+                    }
+                }
+            }
+        ];
+    }
     return paginate(posts, { pageSize: siteConfig.postsPerPage || 4 });
 }
 
-type Props = { page: Page<CollectionEntry<'blog'>> };
+type EmptyPage<T> = {
+    data: T[];
+    url: { prev?: string; next?: string };
+    currentPage: number;
+    lastPage: number;
+};
+
+type Props = { page: Page<CollectionEntry<'blog'>> | EmptyPage<CollectionEntry<'blog'>> };
 
 const { page } = Astro.props;
 const blog = page.data;
@@ -20,6 +46,14 @@ const blog = page.data;
 
 <BaseLayout title="文章" description="浏览全部博客文章。" showHeader={false}>
     <h1 class="mb-12 font-serif text-2xl leading-tight italic sm:mb-16 sm:text-4xl">文章</h1>
-    {blog.map((post) => <PostPreview post={post} class="mb-10 sm:mb-12" />)}
-    <Pagination page={page} class="mt-10 sm:mt-12" />
+    {
+        blog.length > 0 ? (
+            <>
+                {blog.map((post) => <PostPreview post={post} class="mb-10 sm:mb-12" />)}
+                {page.lastPage > 1 && <Pagination page={page} class="mt-10 sm:mt-12" />}
+            </>
+        ) : (
+            <EmptyState message="文章列表暂时为空。后续可按 rule.md 规则在 src/content/blog/ 中新增内容。" />
+        )
+    }
 </BaseLayout>
