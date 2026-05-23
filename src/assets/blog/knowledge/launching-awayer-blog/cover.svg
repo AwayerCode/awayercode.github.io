@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Awayer Blog Launch Cover</title>
+  <desc id="desc">A warm editorial cover for the first public article.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f2ede0" />
+      <stop offset="48%" stop-color="#f7d7b3" />
+      <stop offset="100%" stop-color="#d56b48" />
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)" />
+  <circle cx="1320" cy="210" r="180" fill="#132238" opacity="0.18" />
+  <circle cx="310" cy="750" r="220" fill="#ffffff" opacity="0.22" />
+  <path d="M0 680C220 560 470 560 700 700S1180 860 1600 640V900H0Z" fill="#132238" opacity="0.1" />
+  <text x="120" y="270" fill="#132238" font-size="46" font-family="'Georgia', serif" letter-spacing="4">AWAYER'S BLOG</text>
+  <text x="120" y="420" fill="#132238" font-size="96" font-family="'Georgia', serif" font-weight="700">
+    从私有知识到
+  </text>
+  <text x="120" y="530" fill="#132238" font-size="96" font-family="'Georgia', serif" font-weight="700">
+    公开写作
+  </text>
+  <text x="124" y="622" fill="#132238" font-size="34" font-family="'Helvetica Neue', Arial, sans-serif" opacity="0.78">
+    手动白名单发布，让内部思考和公开表达各自保持干净边界
+  </text>
+</svg>
