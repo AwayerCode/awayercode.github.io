@@ -13,27 +13,14 @@ const featuredPosts = posts.filter(({ data }) => data.isFeatured);
 
 const projects = (await getCollection('projects')).sort(sortItemsByDateDesc);
 const featuredProjects = projects.filter(({ data }) => data.isFeatured);
+const sectionTitleClass = 'mb-10 font-serif text-2xl font-medium sm:mb-12 sm:text-3xl';
 ---
 
 <BaseLayout description={siteConfig.description}>
-    <Hero {...siteConfig.hero} />
-    {
-        featuredProjects?.length > 0 && (
-            <div class="mb-16 sm:mb-24">
-                <h2 class="mb-12 font-serif text-xl italic sm:mb-16 sm:text-2xl">项目</h2>
-                {featuredProjects.map((project) => (
-                    <ProjectPreview project={project} class="mb-10 sm:mb-12" headingLevel="h3" />
-                ))}
-                <div class="mt-12 sm:mt-16">
-                    <Button href="/projects">查看全部项目</Button>
-                </div>
-            </div>
-        )
-    }
     {
         featuredPosts?.length > 0 && (
             <div class="mb-16 sm:mb-24">
-                <h2 class="mb-12 font-serif text-xl italic sm:mb-16 sm:text-2xl">文章</h2>
+                <h2 class={sectionTitleClass}>文章</h2>
                 {featuredPosts.map((post) => (
                     <PostPreview post={post} class="mb-10 sm:mb-12" headingLevel="h3" />
                 ))}
@@ -43,4 +30,21 @@ const featuredProjects = projects.filter(({ data }) => data.isFeatured);
             </div>
         )
     }
+    {
+        featuredProjects?.length > 0 && (
+            <div class="mb-16 sm:mb-24">
+                <h2 class={sectionTitleClass}>项目</h2>
+                {featuredProjects.map((project) => (
+                    <ProjectPreview project={project} class="mb-10 sm:mb-12" headingLevel="h3" />
+                ))}
+                <div class="mt-12 sm:mt-16">
+                    <Button href="/projects">查看全部项目</Button>
+                </div>
+            </div>
+        )
+    }
+    <section>
+        <h2 class={sectionTitleClass}>About Me</h2>
+        <Hero {...siteConfig.hero} title={undefined} actions={undefined} />
+    </section>
 </BaseLayout>
