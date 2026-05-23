@@ -11,6 +11,10 @@
 - 正文默认使用 Markdown；确有需要时可以使用 MDX。
 - 若没有必要，不要填写可选字段。
 - 图片如果出现在 content collection 的 frontmatter 里，必须放在 `src/assets/` 中，并使用相对路径引用。
+- 图片资源按用途分目录存放，使用扁平结构，避免多余中间层级：
+  - 文章图片：`src/assets/blog/<article-slug>/`
+  - 项目图片：`src/assets/projects/<project-slug>/`
+  - 站点级图片（图标、Logo 等）：`src/assets/icons/` 或直接放在 `src/assets/`
 
 ## 内容入口
 
@@ -38,7 +42,7 @@ seo:
   title: "自定义 SEO 标题"
   description: "自定义 SEO 描述，15 到 160 字符之间"
   image:
-    src: "../../assets/images/example-cover.jpg"
+    src: "../../assets/blog/article-slug/cover.jpg"
     alt: "封面图说明"
   pageType: article
 ---
@@ -69,8 +73,10 @@ seo:
 
 ### 图片规则
 
-- 如果 frontmatter 中使用 `seo.image`，图片必须放在 `src/assets/`
-- 正文中的 Markdown 图片也建议使用 `src/assets/` 中的相对路径
+- 文章图片放在 `src/assets/blog/<article-slug>/` 下，每个文章一个目录
+- 如果 frontmatter 中使用 `seo.image`，引用路径为 `../../assets/blog/<article-slug>/<filename>`
+- 正文中的 Markdown 图片也使用同一目录的相对路径
+- 不要在 `src/assets/blog/` 下添加多余的中间目录（如 `knowledge/`、`images/` 等）
 - 如果文章不需要图片，可以完全省略
 
 ## 项目规则
@@ -89,7 +95,7 @@ seo:
   title: "自定义 SEO 标题"
   description: "自定义 SEO 描述，15 到 160 字符之间"
   image:
-    src: "../../assets/images/example-project-cover.jpg"
+    src: "../../assets/projects/project-slug/cover.jpg"
     alt: "项目封面图说明"
   pageType: article
 ---
@@ -114,7 +120,10 @@ seo:
 
 ### 图片规则
 
-- 与文章相同：frontmatter 图片必须放在 `src/assets/`
+- 项目图片放在 `src/assets/projects/<project-slug>/` 下，每个项目一个目录
+- 如果 frontmatter 中使用 `seo.image`，引用路径为 `../../assets/projects/<project-slug>/<filename>`
+- 正文中的 Markdown 图片也使用同一目录的相对路径
+- 不要在 `src/assets/projects/` 下添加多余的中间目录
 - 如果项目没有图片，可完全省略
 
 ## About Me 规则
