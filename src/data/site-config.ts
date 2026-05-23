@@ -1,13 +1,7 @@
-import avatar from '../assets/images/avatar.jpg';
-import hero from '../assets/images/hero.jpg';
 import type { SiteConfig } from '../types';
 
 const siteConfig: SiteConfig = {
     website: 'https://example.com',
-    avatar: {
-        src: avatar,
-        alt: 'Awayer'
-    },
     title: 'Awayer',
     subtitle: 'Coder, Writer, Problem Solver',
     description: '一个以中文内容为主的博客与项目展示站点。',
@@ -35,20 +29,6 @@ const siteConfig: SiteConfig = {
     ],
     footerNavLinks: [],
     socialLinks: [],
-    hero: {
-        title: '你好，欢迎来到我的公开写作空间。',
-        text: '这里主要整理适合公开阅读的中文内容，包括技术记录、长期思考，以及一些仍在发展中的项目线索。\n我希望把这里做成一个轻量、安静、可以长期更新的个人站点。',
-        image: {
-            src: hero,
-            alt: '坐在桌前工作的人'
-        },
-        actions: [
-            {
-                text: '查看文章',
-                href: '/blog'
-            }
-        ]
-    },
     subscribe: {
         enabled: false,
         title: '订阅更新',

@@ -1,50 +1,78 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import Button from '../components/Button.astro';
-import Hero from '../components/Hero.astro';
+import EmptyState from '../components/EmptyState.astro';
 import PostPreview from '../components/PostPreview.astro';
 import ProjectPreview from '../components/ProjectPreview.astro';
 import siteConfig from '../data/site-config';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { hasContentFiles } from '../utils/content-files';
 import { sortItemsByDateDesc } from '../utils/data-utils';
 
-const posts = (await getCollection('blog')).sort(sortItemsByDateDesc);
+const hasBlogFiles = hasContentFiles('src/content/blog');
+const posts = hasBlogFiles ? (await getCollection('blog')).sort(sortItemsByDateDesc) : [];
 const featuredPosts = posts.filter(({ data }) => data.isFeatured);
 
-const projects = (await getCollection('projects')).sort(sortItemsByDateDesc);
+const hasProjectFiles = hasContentFiles('src/content/projects');
+const projects = hasProjectFiles ? (await getCollection('projects')).sort(sortItemsByDateDesc) : [];
 const featuredProjects = projects.filter(({ data }) => data.isFeatured);
+const pages = await getCollection('pages');
+const aboutPage = pages.find((page) => page.id === 'about');
+const aboutHasContent = Boolean(aboutPage?.body?.trim());
+let AboutContent = null;
+
+if (aboutPage && aboutHasContent) {
+    ({ Content: AboutContent } = await render(aboutPage));
+}
+
 const sectionTitleClass = 'mb-10 font-serif text-2xl font-medium sm:mb-12 sm:text-3xl';
 ---
 
 <BaseLayout description={siteConfig.description}>
-    {
-        featuredPosts?.length > 0 && (
-            <div class="mb-16 sm:mb-24">
-                <h2 class={sectionTitleClass}>文章</h2>
-                {featuredPosts.map((post) => (
-                    <PostPreview post={post} class="mb-10 sm:mb-12" headingLevel="h3" />
-                ))}
-                <div class="mt-12 sm:mt-16">
-                    <Button href="/blog">查看全部文章</Button>
-                </div>
-            </div>
-        )
-    }
-    {
-        featuredProjects?.length > 0 && (
-            <div class="mb-16 sm:mb-24">
-                <h2 class={sectionTitleClass}>项目</h2>
-                {featuredProjects.map((project) => (
-                    <ProjectPreview project={project} class="mb-10 sm:mb-12" headingLevel="h3" />
-                ))}
-                <div class="mt-12 sm:mt-16">
-                    <Button href="/projects">查看全部项目</Button>
-                </div>
-            </div>
-        )
-    }
+    <section class="mb-16 sm:mb-24">
+        <h2 class={sectionTitleClass}>文章</h2>
+        {
+            featuredPosts.length > 0 ? (
+                <>
+                    {featuredPosts.map((post) => (
+                        <PostPreview post={post} class="mb-10 sm:mb-12" headingLevel="h3" />
+                    ))}
+                    <div class="mt-12 sm:mt-16">
+                        <Button href="/blog">查看全部文章</Button>
+                    </div>
+                </>
+            ) : (
+                <EmptyState message="文章内容待补充。后续可按 rule.md 规则在 src/content/blog/ 中新增文章。" />
+            )
+        }
+    </section>
+    <section class="mb-16 sm:mb-24">
+        <h2 class={sectionTitleClass}>项目</h2>
+        {
+            featuredProjects.length > 0 ? (
+                <>
+                    {featuredProjects.map((project) => (
+                        <ProjectPreview project={project} class="mb-10 sm:mb-12" headingLevel="h3" />
+                    ))}
+                    <div class="mt-12 sm:mt-16">
+                        <Button href="/projects">查看全部项目</Button>
+                    </div>
+                </>
+            ) : (
+                <EmptyState message="项目内容待补充。后续可按 rule.md 规则在 src/content/projects/ 中新增项目。" />
+            )
+        }
+    </section>
     <section>
         <h2 class={sectionTitleClass}>About Me</h2>
-        <Hero {...siteConfig.hero} title={undefined} actions={undefined} />
+        {
+            AboutContent ? (
+                <div class="prose sm:prose-lg max-w-none">
+                    <AboutContent />
+                </div>
+            ) : (
+                <EmptyState message="About Me 内容待补充。请在 src/content/pages/about.md 中填写个人介绍。" />
+            )
+        }
     </section>
 </BaseLayout>

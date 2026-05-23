@@ -1,18 +1,44 @@
 ---
 import type { GetStaticPathsOptions, Page } from 'astro';
 import { type CollectionEntry, getCollection } from 'astro:content';
+import EmptyState from '../../components/EmptyState.astro';
 import Pagination from '../../components/Pagination.astro';
 import ProjectPreview from '../../components/ProjectPreview.astro';
 import siteConfig from '../../data/site-config';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { hasContentFiles } from '../../utils/content-files';
 import { sortItemsByDateDesc } from '../../utils/data-utils';
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
-    const projects = (await getCollection('projects')).sort(sortItemsByDateDesc);
+    const projects = hasContentFiles('src/content/projects')
+        ? (await getCollection('projects')).sort(sortItemsByDateDesc)
+        : [];
+    if (projects.length === 0) {
+        return [
+            {
+                params: { page: undefined },
+                props: {
+                    page: {
+                        data: [],
+                        url: { prev: undefined, next: undefined },
+                        currentPage: 1,
+                        lastPage: 1
+                    }
+                }
+            }
+        ];
+    }
     return paginate(projects, { pageSize: siteConfig.projectsPerPage || 6 });
 }
 
-type Props = { page: Page<CollectionEntry<'projects'>> };
+type EmptyPage<T> = {
+    data: T[];
+    url: { prev?: string; next?: string };
+    currentPage: number;
+    lastPage: number;
+};
+
+type Props = { page: Page<CollectionEntry<'projects'>> | EmptyPage<CollectionEntry<'projects'>> };
 
 const { page } = Astro.props;
 const portfolio = page.data;
@@ -20,6 +46,14 @@ const portfolio = page.data;
 
 <BaseLayout title="项目" description="查看项目归档与相关展示内容。" showHeader={false}>
     <h1 class="mb-12 font-serif text-2xl leading-tight italic sm:mb-16 sm:text-4xl">项目</h1>
-    {portfolio.map((project) => <ProjectPreview project={project} class="mb-10 sm:mb-12" />)}
-    <Pagination page={page} class="mt-10 sm:mt-12" />
+    {
+        portfolio.length > 0 ? (
+            <>
+                {portfolio.map((project) => <ProjectPreview project={project} class="mb-10 sm:mb-12" />)}
+                {page.lastPage > 1 && <Pagination page={page} class="mt-10 sm:mt-12" />}
+            </>
+        ) : (
+            <EmptyState message="项目列表暂时为空。后续可按 rule.md 规则在 src/content/projects/ 中新增内容。" />
+        )
+    }
 </BaseLayout>
