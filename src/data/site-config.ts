@@ -9,7 +9,7 @@ const siteConfig: SiteConfig = {
         alt: 'Awayer'
     },
     title: 'Awayer',
-    subtitle: '中文写作为主的个人博客',
+    subtitle: 'Coder, Writer, Problem Solver',
     description: '一个以中文内容为主的博客与项目展示站点。',
     image: {
         src: '/dante-preview.jpg',
