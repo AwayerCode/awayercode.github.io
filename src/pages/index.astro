@@ -1,84 +1,46 @@
 ---
-import { getCollection } from "astro:content";
-import Container from "@components/Container.astro";
-import PageLayout from "@layouts/PageLayout.astro";
-import ArrowCard from "@components/ArrowCard.astro";
-import Link from "@components/Link.astro";
-import { SITE, HOME, SOCIALS } from "@consts";
+import { getCollection } from 'astro:content';
+import Button from '../components/Button.astro';
+import Hero from '../components/Hero.astro';
+import PostPreview from '../components/PostPreview.astro';
+import ProjectPreview from '../components/ProjectPreview.astro';
+import siteConfig from '../data/site-config';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { sortItemsByDateDesc } from '../utils/data-utils';
 
-const blog = (await getCollection("blog"))
-  .filter(post => !post.data.draft)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0,SITE.NUM_POSTS_ON_HOMEPAGE);
+const posts = (await getCollection('blog')).sort(sortItemsByDateDesc);
+const featuredPosts = posts.filter(({ data }) => data.isFeatured);
+
+const projects = (await getCollection('projects')).sort(sortItemsByDateDesc);
+const featuredProjects = projects.filter(({ data }) => data.isFeatured);
 ---
 
-<PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
-  <Container>
-    <h4 class="animate font-semibold text-black dark:text-white">
-      Awayer&apos;s Blog
-    </h4>
-    <div class="space-y-16">
-      <section>
-        <article class="space-y-4">
-          <p class="animate">
-            这里不是完整知识库镜像，而是一层公开表达。文章先在私有知识仓中写作和整理，只有明确适合公开的内容，才会进入
-            <code>5-Public/</code>
-            并发布到这个博客。
-          </p>
-          <p class="animate">
-            这样做的好处是，内部判断、任务推进和零散草稿仍然留在私有仓里；公开站只承担“可被阅读的文章”这一层职责。
-          </p>
-          <p class="animate">
-            站点基于
-            <Link href="https://astro.build/themes/details/astronano/" aria-label="Astronano theme" external>
-              Astronano
-            </Link>
-            模板重建，并保留一条明确的手动发布链路。
-          </p>
-        </article>
-      </section>
-
-      <section class="animate space-y-6">
-        <div class="flex flex-wrap gap-y-2 items-center justify-between">
-          <h5 class="font-semibold text-black dark:text-white">
-            Latest posts
-          </h5>
-          <Link href="/blog">
-            See all posts
-          </Link>
-        </div>
-        <ul class="flex flex-col gap-4">
-          {blog.map(post => (
-            <li>
-              <ArrowCard entry={post} />
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section class="animate space-y-4">
-        <h5 class="font-semibold text-black dark:text-white">
-          Publishing Model
-        </h5>
-        <article>
-          <p>
-            公开发布始终遵循同一条链路：私有仓写作，挑选进入
-            <code>5-Public/</code>
-            ，再同步到独立公开仓并由 GitHub Pages 部署。
-          </p>
-        </article>
-        <ul class="flex flex-wrap gap-2">
-          {SOCIALS.map(SOCIAL => (
-            <li class="flex gap-x-2 text-nowrap">
-              <Link href={SOCIAL.HREF} external aria-label={`${SITE.NAME} on ${SOCIAL.NAME}`}>
-                {SOCIAL.NAME}
-              </Link>
-              {"/"}
-            </li>
-          ))}
-          <li class="line-clamp-1">rss.xml</li>
-        </ul>
-      </section>
-    </div>
-  </Container>
-</PageLayout>
+<BaseLayout description={siteConfig.description}>
+    <Hero {...siteConfig.hero} />
+    {
+        featuredProjects?.length > 0 && (
+            <div class="mb-16 sm:mb-24">
+                <h2 class="mb-12 font-serif text-xl italic sm:mb-16 sm:text-2xl">Projects</h2>
+                {featuredProjects.map((project) => (
+                    <ProjectPreview project={project} class="mb-10 sm:mb-12" headingLevel="h3" />
+                ))}
+                <div class="mt-12 sm:mt-16">
+                    <Button href="/projects">View All Projects</Button>
+                </div>
+            </div>
+        )
+    }
+    {
+        featuredPosts?.length > 0 && (
+            <div class="mb-16 sm:mb-24">
+                <h2 class="mb-12 font-serif text-xl italic sm:mb-16 sm:text-2xl">Writing</h2>
+                {featuredPosts.map((post) => (
+                    <PostPreview post={post} class="mb-10 sm:mb-12" headingLevel="h3" />
+                ))}
+                <div class="mt-12 sm:mt-16">
+                    <Button href="/blog">View All Posts</Button>
+                </div>
+            </div>
+        )
+    }
+</BaseLayout>
