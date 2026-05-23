@@ -11,6 +11,7 @@ seo:
     src: "../../assets/blog/knowledge/launching-awayer-blog/cover.svg"
     alt: "Awayer Blog 的首篇公开文章封面"
   pageType: article
+isFeatured: false
 ---
 
 把公开写作和内部知识写作拆开之后，整个流程会清晰很多：
