@@ -1,6 +1,6 @@
 ---
 import Localized from '../components/Localized.astro';
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 import Button from '../components/Button.astro';
 import EmptyState from '../components/EmptyState.astro';
 import PostPreview from '../components/PostPreview.astro';
@@ -19,15 +19,6 @@ const hasProjectFiles = hasContentFiles('src/content/projects');
 const projects = hasProjectFiles ? (await getCollection('projects')).sort(sortItemsByDateDesc) : [];
 const featuredProjects = projects.filter(({ data }) => data.isFeatured);
 const homeProjects = featuredProjects.length > 0 ? featuredProjects : projects.slice(0, siteConfig.projectsPerPage || 8);
-const pages = await getCollection('pages');
-const aboutPage = pages.find((page) => page.id === 'about');
-const aboutHasContent = Boolean(aboutPage?.body?.trim());
-let AboutContent = null;
-
-if (aboutPage && aboutHasContent) {
-    ({ Content: AboutContent } = await render(aboutPage));
-}
-
 const sectionTitleClass = 'mb-5 font-serif text-2xl font-medium sm:mb-6 sm:text-3xl';
 ---
 
@@ -63,18 +54,6 @@ const sectionTitleClass = 'mb-5 font-serif text-2xl font-medium sm:mb-6 sm:text-
                 </>
             ) : (
                 <EmptyState message="暂无项目，敬请期待。" />
-            )
-        }
-    </section>
-    <section>
-        <h2 class={sectionTitleClass}><Localized zh="关于我" /></h2>
-        {
-            AboutContent ? (
-                <div class="prose sm:prose-lg max-w-none">
-                    <AboutContent />
-                </div>
-            ) : (
-                <EmptyState message="个人介绍即将更新。" />
             )
         }
     </section>
