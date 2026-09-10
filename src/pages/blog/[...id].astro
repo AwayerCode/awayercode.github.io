@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, getCollection, render } from 'astro:content';
+import { validateContentId } from '../../utils/archive-utils';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Button from '../../components/Button.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
@@ -12,6 +13,7 @@ export async function getStaticPaths() {
     const posts = hasContentFiles('src/content/blog')
         ? (await getCollection('blog')).sort(sortItemsByDateDesc)
         : [];
+    posts.forEach((item) => validateContentId(item.id));
     const postCount = posts.length;
     return posts.map((post, index) => ({
         params: { id: post.id },
@@ -23,7 +25,7 @@ export async function getStaticPaths() {
     }));
 }
 
-type Props = { post: CollectionEntry<'blog'>; prevPost: CollectionEntry<'blog'>; nextPost: CollectionEntry<'blog'> };
+type Props = { post: CollectionEntry<'blog'>; prevPost: CollectionEntry<'blog'> | null; nextPost: CollectionEntry<'blog'> | null };
 
 const { href } = Astro.url;
 const { post, prevPost, nextPost } = Astro.props;

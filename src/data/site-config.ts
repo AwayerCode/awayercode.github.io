@@ -5,10 +5,6 @@ const siteConfig: SiteConfig = {
     title: 'Awayer',
     subtitle: 'Coder, Writer, Problem Solver',
     description: '一个以中文内容为主的博客与项目展示站点。',
-    image: {
-        src: '/dante-preview.jpg',
-        alt: 'Awayer 站点预览图'
-    },
     headerNavLinks: [
         {
             text: '首页',

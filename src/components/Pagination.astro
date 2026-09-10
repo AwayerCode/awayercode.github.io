@@ -1,4 +1,7 @@
 ---
+import type { ArchivePage } from '../utils/archive-utils';
+type Props = { page: Pick<ArchivePage<unknown>, 'url' | 'currentPage' | 'lastPage'>; class?: string };
+
 import ArrowLeft from '../assets/icons/arrow-left.svg';
 import ArrowRight from '../assets/icons/arrow-right.svg';
 import IconButton from './IconButton.astro';
@@ -6,7 +9,7 @@ import IconButton from './IconButton.astro';
 const { page, class: className } = Astro.props;
 ---
 
-<nav aria-label="Pagination" class:list={['relative px-12 py-2 text-center', className]}>
+<nav aria-label="分页" class:list={['relative px-12 py-2 text-center', className]}>
     {
         page.url.prev && (
             <IconButton

@@ -1,6 +1,7 @@
 ---
 import { type CollectionEntry, getCollection, render } from 'astro:content';
 import ProjectPreview from '../../components/ProjectPreview.astro';
+import { validateContentId } from '../../utils/archive-utils';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { hasContentFiles } from '../../utils/content-files';
 import { sortItemsByDateDesc } from '../../utils/data-utils';
@@ -9,6 +10,7 @@ export async function getStaticPaths() {
     const projects = hasContentFiles('src/content/projects')
         ? (await getCollection('projects')).sort(sortItemsByDateDesc)
         : [];
+    projects.forEach((item) => validateContentId(item.id));
     const projectCount = projects.length;
     return projects.map((project, index) => ({
         params: { id: project.id },
@@ -22,8 +24,8 @@ export async function getStaticPaths() {
 
 type Props = {
     project: CollectionEntry<'projects'>;
-    prevProject: CollectionEntry<'projects'>;
-    nextProject: CollectionEntry<'projects'>;
+    prevProject: CollectionEntry<'projects'> | null;
+    nextProject: CollectionEntry<'projects'> | null;
 };
 
 const { project, prevProject, nextProject } = Astro.props;

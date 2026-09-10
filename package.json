@@ -7,7 +7,9 @@
         "start": "ASTRO_TELEMETRY_DISABLED=1 node ./node_modules/astro/astro.js dev",
         "build": "ASTRO_TELEMETRY_DISABLED=1 node ./node_modules/astro/astro.js build",
         "preview": "ASTRO_TELEMETRY_DISABLED=1 node ./node_modules/astro/astro.js preview",
-        "astro": "ASTRO_TELEMETRY_DISABLED=1 node ./node_modules/astro/astro.js"
+        "astro": "ASTRO_TELEMETRY_DISABLED=1 node ./node_modules/astro/astro.js",
+        "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
+        "test": "node tests/regression.mjs"
     },
     "dependencies": {
         "@astrojs/mdx": "^4.3.10",
@@ -21,9 +23,11 @@
         "tailwindcss": "^4.1.17"
     },
     "devDependencies": {
+        "@astrojs/check": "^0.9.10",
         "@tailwindcss/typography": "^0.5.19",
         "prettier": "^3.6.2",
         "prettier-plugin-astro": "^0.14.1",
-        "prettier-plugin-tailwindcss": "^0.7.1"
+        "prettier-plugin-tailwindcss": "^0.7.1",
+        "typescript": "^5.9.3"
     }
 }

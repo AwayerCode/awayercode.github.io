@@ -43,7 +43,7 @@ const tags = getAllTags(posts).sort((tagA, tagB) => {
                 );
             })
         ) : (
-            <EmptyState message="标签页暂时为空。文章补充并添加 tags 后，这里会自动生成内容。" />
+            <EmptyState message="暂无标签，发布文章后将在这里展示。" />
         )
     }
 </BaseLayout>

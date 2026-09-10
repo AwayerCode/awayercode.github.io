@@ -1,0 +1,6 @@
+---
+import Archive from '../../components/ProjectArchive.astro';
+import { getArchivePages } from '../../utils/archive-utils';
+const [page] = await getArchivePages('projects');
+---
+<Archive page={page} />
