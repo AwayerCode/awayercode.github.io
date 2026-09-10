@@ -1,6 +1,6 @@
 ---
 title: "Skill 设计：把经验变成可复用的能力"
-excerpt: "把经验写成提示词只是起点。可靠的 Skill，需要把知识、流程、工具与验收组合起来，让一次任务中的经验能够在下一次执行中生效。"
+excerpt: "把知识、流程、工具与验收组织成 Skill，让一次任务中的经验成为下一次可以复用的能力。"
 publishDate: 2026-09-10
 isFeatured: true
 tags: ["AI Native", "Agent", "Skill"]

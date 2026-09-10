@@ -15,13 +15,13 @@ const blog = page.data;
 
 <BaseLayout title="文章" description="浏览全部博客文章。" showHeader={false}>
     <div class="mb-12 flex flex-wrap items-baseline justify-between gap-4 sm:mb-16">
-        <h1 class="font-serif text-2xl leading-tight italic sm:text-4xl"><Localized zh="文章" /></h1>
+        <h1 class="font-sans text-2xl leading-tight font-semibold sm:text-4xl"><Localized zh="文章" /></h1>
         <a href="/tags" class="text-sm underline decoration-dashed underline-offset-4 hover:decoration-solid"><Localized zh="按标签浏览" en="Browse by tag" /></a>
     </div>
     {
         blog.length > 0 ? (
             <>
-                {blog.map((post) => <PostPreview post={post} class="mb-10 sm:mb-12" />)}
+                {blog.map((post) => <PostPreview post={post} class="mb-8 sm:mb-10" />)}
                 {page.lastPage > 1 && <Pagination page={page} class="mt-10 sm:mt-12" />}
             </>
         ) : (

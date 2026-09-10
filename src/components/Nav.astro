@@ -9,7 +9,7 @@ import siteConfig from '../data/site-config';
 const navLinks = siteConfig.headerNavLinks ?? [];
 ---
 
-<nav class="relative min-h-10 pt-4 pb-12 sm:min-h-14 sm:pb-24 md:pt-8" aria-label="主导航" {...i18n("主导航", undefined, "aria-label")}>
+<nav class="relative mx-auto w-full max-w-3xl min-h-10 pt-4 pb-12 sm:min-h-14 sm:pb-24 md:pt-8" aria-label="主导航" {...i18n("主导航", undefined, "aria-label")}>
     {
         navLinks.length > 0 && (
             <div class="relative mx-auto w-full max-w-3xl">
@@ -28,7 +28,7 @@ const navLinks = siteConfig.headerNavLinks ?? [];
                     {navLinks.map((link) => (
                         <li class="py-1">
                             <NavLink
-                                class="text-main font-serif text-xl hover:underline hover:decoration-1 hover:underline-offset-[3px] md:text-base"
+                                class="text-main font-sans text-xl hover:underline hover:decoration-1 hover:underline-offset-[3px] md:text-base"
                                 href={link.href}
                             >
                                 <Localized zh={link.text} />
