@@ -11,16 +11,20 @@ const siteConfig: SiteConfig = {
             href: '/'
         },
         {
-            text: '项目',
-            href: '/projects'
-        },
-        {
             text: '文章',
             href: '/blog'
         },
         {
+            text: '项目',
+            href: '/projects'
+        },
+        {
             text: '标签',
             href: '/tags'
+        },
+        {
+            text: '关于我',
+            href: '/about'
         }
     ],
     footerNavLinks: [],
