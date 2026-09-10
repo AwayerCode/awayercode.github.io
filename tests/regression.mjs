@@ -34,8 +34,9 @@ try {
     build();
     assert.match(read('index.html'), /暂无文章/);
     assert.match(read('projects/index.html'), /暂无项目/);
-    assert.match(read('tags/index.html'), /暂无标签/);
-    for (const page of ['index.html', 'blog/index.html', 'projects/index.html', 'tags/index.html', 'about/index.html']) {
+    assert.match(read('tags/index.html'), /url=\/blog\//);
+    assert.match(read('blog/index.html'), /暂无文章/);
+    for (const page of ['index.html', 'blog/index.html', 'projects/index.html', 'about/index.html']) {
         const html = read(page);
         assert.match(html, /lang="zh-CN"/);
         assert.match(html, /id="language-toggle"/);
@@ -54,9 +55,17 @@ try {
         assert.match(read(`${collection}/2/index.html`), new RegExp(`Body of ${collection} numeric`));
         assert.match(read(`${collection}/topic/nested/index.html`), new RegExp(`Body of ${collection} nested`));
         const pageTwo = read(`${collection}/page/2/index.html`);
-        assert.match(pageTwo, /aria-label="分页"/);
-        assert.match(pageTwo, /data-i18n-en="Page 2 of/);
-        assert.match(pageTwo, new RegExp(`href="/${collection}/"`));
+        if (collection === 'blog') {
+            assert.match(pageTwo, /aria-label="文章分页"/);
+            assert.match(pageTwo, /data-page="2"/);
+            assert.match(pageTwo, /data-prev/);
+            assert.match(pageTwo, /data-next/);
+            assert.equal([...pageTwo.matchAll(/data-post(?:\s|>)/g)].length, 19);
+        } else {
+            assert.match(pageTwo, /aria-label="分页"/);
+            assert.match(pageTwo, /data-i18n-en="Page 2 of/);
+            assert.match(pageTwo, new RegExp(`href="/${collection}/"`));
+        }
         assert.match(nav(pageTwo, `/${collection}`), /aria-current="location"/);
         assert.match(nav(read(`${collection}/topic/nested/index.html`), `/${collection}`), /aria-current="location"/);
         assert.match(nav(read(`${collection}/index.html`), `/${collection}`), /aria-current="page"/);
@@ -66,8 +75,10 @@ try {
     const tagDirs = readdirSync(join(temp, 'dist/tags'), { withFileTypes: true }).filter((entry) => entry.isDirectory());
     assert.equal(tagDirs.length, labels.length);
     for (const dir of tagDirs) {
-        const titles = new Set(read(`tags/${dir.name}/index.html`).match(/UniqueTag\d+End/g));
-        assert.equal(titles.size, 1, `Tag archive merged unrelated entries: ${dir.name}`);
+        const redirect = read(`tags/${dir.name}/index.html`);
+        assert.ok(redirect.includes(`/blog/?tag=${encodeURIComponent(dir.name)}`), `Wrong tag redirect: ${dir.name}`);
+        assert.ok(read('blog/index.html').includes(`data-tag="${dir.name}"`), `Missing filter: ${dir.name}`);
+        assert.doesNotMatch(redirect, /UniqueTag\d+End/);
     }
     assert.match(read('rss.xml'), /https:\/\/awayercode.github.io\/blog\/topic\/nested\//);
     assert.doesNotMatch(read('sitemap-0.xml'), /example\.com/);
