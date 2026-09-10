@@ -19,10 +19,6 @@ const siteConfig: SiteConfig = {
             href: '/projects'
         },
         {
-            text: '标签',
-            href: '/tags'
-        },
-        {
             text: '关于我',
             href: '/about'
         }

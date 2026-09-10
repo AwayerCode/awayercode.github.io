@@ -8,7 +8,8 @@ const { href, class: className, ...props } = Astro.props;
 const { pathname } = Astro.url;
 const target = href?.toString().replace(/\/$/, '') || '/';
 const current = pathname.replace(/\/$/, '') || '/';
-const isActive = current === target || (target !== '/' && current.startsWith(`${target}/`));
+const isArticleTag = target === '/blog' && (current === '/tags' || current.startsWith('/tags/'));
+const isActive = current === target || (target !== '/' && current.startsWith(`${target}/`)) || isArticleTag;
 ---
 
 <a class:list={[className, { 'underline decoration-1 underline-offset-[3px]': isActive }]} href={href} {...props} aria-current={isActive ? (current === target ? 'page' : 'location') : undefined}>
