@@ -12,7 +12,6 @@ const english: Record<string, string> = {
     '查看项目归档与相关展示内容。': 'Explore projects and their stories.',
     '按标签浏览文章内容。': 'Browse posts by tag.',
     '一个以中文内容为主的博客与项目展示站点。': 'A personal blog and project showcase.',
-    '程序员、写作者、问题解决者': 'Coder, Writer, Problem Solver',
     '分享': 'Share', '复制链接': 'Copy link', '已复制': 'Copied',
     '复制失败，请重试': 'Copy failed. Try again.', '主导航': 'Main navigation', '分页': 'Pagination'
 };

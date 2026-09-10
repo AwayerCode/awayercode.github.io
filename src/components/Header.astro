@@ -1,5 +1,4 @@
 ---
-import Localized from './Localized.astro';
 import siteConfig from '../data/site-config';
 import CustomImage from './CustomImage.astro';
 
@@ -33,6 +32,6 @@ const titleClass = 'text-theme-foreground font-serif text-2xl leading-tight font
                 </a>
             )
         }
-        {siteConfig.subtitle && <p class="text-sm leading-tight"><Localized zh={siteConfig.subtitle === "Coder, Writer, Problem Solver" ? "程序员、写作者、问题解决者" : siteConfig.subtitle} /></p>}
+        {siteConfig.subtitle && <p class="text-sm leading-tight">{siteConfig.subtitle}</p>}
     </div>
 </header>
