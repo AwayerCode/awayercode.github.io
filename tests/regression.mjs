@@ -70,7 +70,7 @@ try {
         assert.match(nav(read(`${collection}/topic/nested/index.html`), `/${collection}`), /aria-current="location"/);
         assert.match(nav(read(`${collection}/index.html`), `/${collection}`), /aria-current="page"/);
     }
-    assert.match(read('index.html'), /查看全部文章/);
+    assert.doesNotMatch(read('index.html'), /查看全部文章/);
     assert.match(read('index.html'), /查看全部项目/);
     const tagDirs = readdirSync(join(temp, 'dist/tags'), { withFileTypes: true }).filter((entry) => entry.isDirectory());
     assert.equal(tagDirs.length, labels.length);
