@@ -2,7 +2,7 @@
 import siteConfig from '../data/site-config';
 import CustomImage from './CustomImage.astro';
 
-const titleClass = 'text-theme-foreground font-serif text-2xl leading-tight font-medium sm:text-3xl';
+const titleClass = 'text-[28px] leading-tight font-semibold';
 ---
 
 <header class="mx-auto -mt-4 mb-8 flex w-full max-w-3xl items-center gap-4 sm:-mt-12 sm:mb-10">
@@ -32,6 +32,6 @@ const titleClass = 'text-theme-foreground font-serif text-2xl leading-tight font
                 </a>
             )
         }
-        {siteConfig.subtitle && <p class="text-sm leading-tight">{siteConfig.subtitle}</p>}
+        {siteConfig.subtitle && <p class="text-sm leading-relaxed text-secondary">{siteConfig.subtitle}</p>}
     </div>
 </header>

@@ -1,6 +1,6 @@
 ---
 title: "Loop Engineering：让 Agent 持续、可控地完成任务"
-excerpt: "让 Agent 一直运行并不难，难的是让每轮执行有依据、有验证，并在完成、失败或超出边界时停止。Loop Engineering 关注的是这套持续执行机制。"
+excerpt: "围绕目标、状态、验证与停止条件设计执行循环，让 Agent 持续推进任务，并在必要时交还给人。"
 publishDate: 2026-09-10
 isFeatured: true
 tags: ["AI Native", "Agent", "Loop Engineering"]
