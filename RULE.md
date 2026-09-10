@@ -183,3 +183,10 @@ seo:
 
 - 内容 schema 权威来源：`src/content.config.ts`
 - 站点级品牌与导航配置：`src/data/site-config.ts`
+
+## 路由与标签约束
+
+- 文章和项目支持子目录，例如 `topic/note.md` 对应 `/blog/topic/note/` 或 `/projects/topic/note/`。
+- 数字文件名可用；分页地址独立为 `/blog/page/2/` 和 `/projects/page/2/`。
+- `page` 是分页保留路径，文章和项目不能使用 `page.md` 或顶层 `page/` 目录；构建会给出明确错误。
+- 标签不能是空白文本；标签地址忽略首尾空白和大小写，保留不同符号的区别，`C++` 与 `C#` 不会合并。
