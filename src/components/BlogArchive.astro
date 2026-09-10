@@ -1,31 +1,111 @@
 ---
 import Localized from './Localized.astro';
 import type { ArchivePage } from '../utils/archive-utils';
-import { type CollectionEntry } from 'astro:content';
-import EmptyState from './EmptyState.astro';
-import Pagination from './Pagination.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import PostPreview from './PostPreview.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getAllTags, sortItemsByDateDesc } from '../utils/data-utils';
+import { slugify } from '../utils/common-utils';
+import siteConfig from '../data/site-config';
 
 type Props = { page: ArchivePage<CollectionEntry<'blog'>> };
-
 const { page } = Astro.props;
-const blog = page.data;
+const posts = (await getCollection('blog')).sort(sortItemsByDateDesc);
+const tags = getAllTags(posts);
+const size = siteConfig.postsPerPage ?? 8;
 ---
 
 <BaseLayout title="文章" description="浏览全部博客文章。" showHeader={false}>
-    <div class="mb-12 flex flex-wrap items-baseline justify-between gap-4 sm:mb-16">
-        <h1 class="font-sans text-2xl leading-tight font-semibold sm:text-[28px]"><Localized zh="文章" /></h1>
-        <a href="/tags" class="text-sm underline decoration-dashed underline-offset-4 hover:decoration-solid"><Localized zh="按标签浏览" en="Browse by tag" /></a>
-    </div>
-    {
-        blog.length > 0 ? (
-            <>
-                {blog.map((post) => <PostPreview post={post} class="mb-8 sm:mb-10" />)}
-                {page.lastPage > 1 && <Pagination page={page} class="mt-10 sm:mt-12" />}
-            </>
-        ) : (
-            <EmptyState message="暂无文章，敬请期待。" />
-        )
-    }
+    <blog-filter data-size={size} data-page={page.currentPage}>
+        <header class="mb-10 sm:mb-12">
+            <h1 class="font-sans text-2xl leading-tight font-semibold sm:text-[28px]"><Localized zh="文章" /></h1>
+            {tags.length > 0 && <div class="mt-5 flex flex-wrap gap-2" role="group" aria-label="标签筛选">
+                {tags.map(tag => <button type="button" class="tag-chip" data-tag={tag.id} aria-pressed="false">
+                    <span>{tag.name}</span>
+                </button>)}
+            </div>}
+        </header>
+        <p data-status class="sr-only" role="status" aria-live="polite"></p>
+        {posts.map((post, index) => <div data-post data-tags={JSON.stringify((post.data.tags ?? []).map(slugify))} hidden={index < (page.currentPage - 1) * size || index >= page.currentPage * size}>
+            <PostPreview post={post} class="mb-8 sm:mb-10" />
+        </div>)}
+        <p data-empty hidden={posts.length > 0} class="text-secondary"><Localized zh="暂无文章，敬请期待。" /></p>
+        <nav data-pagination class="mt-10 flex items-center gap-5 text-sm" aria-label="文章分页" hidden={page.lastPage <= 1}>
+            <button type="button" data-prev class="cursor-pointer disabled:opacity-40"><Localized zh="上一页" en="Previous" /></button>
+            <span data-page-label></span>
+            <button type="button" data-next class="cursor-pointer disabled:opacity-40"><Localized zh="下一页" en="Next" /></button>
+        </nav>
+    </blog-filter>
 </BaseLayout>
+
+<style>
+    blog-filter { display: block; }
+    .tag-chip { display: inline-flex; align-items: center; padding: 3px 8px; max-width: 100%; border: 1px solid transparent; border-radius: 10px; color: var(--secondary); background: var(--bg-muted); font-family: inherit; font-size: 14px; line-height: 20px; cursor: pointer; transition: color 150ms, background-color 150ms, border-color 150ms; }
+    .tag-chip span { overflow-wrap: anywhere; text-align: left; }
+    .tag-chip[aria-pressed='true'] { background: var(--text-main); color: var(--bg-main); border-color: var(--text-main); }
+    @media (hover: hover) {
+        .tag-chip:hover { background: color-mix(in srgb, var(--text-main) 12%, var(--bg-main)); color: var(--text-main); }
+        .tag-chip[aria-pressed='true']:hover { background: color-mix(in srgb, var(--text-main) 82%, var(--bg-main)); color: var(--bg-main); }
+    }
+    .tag-chip:focus-visible { outline: 2px solid var(--text-main); outline-offset: 3px; }
+    [hidden] { display: none !important; }
+    @media (prefers-reduced-motion: reduce) { .tag-chip { transition: none; } }
+</style>
+
+<script>
+    class BlogFilter extends HTMLElement {
+        connectedCallback() {
+            const chips = [...this.querySelectorAll<HTMLButtonElement>('[data-tag]')];
+            const posts = [...this.querySelectorAll<HTMLElement>('[data-post]')];
+            const size = Number(this.dataset.size);
+            let selected = new Set<string>();
+            let current = 1;
+            const prev = this.querySelector<HTMLButtonElement>('[data-prev]')!;
+            const next = this.querySelector<HTMLButtonElement>('[data-next]')!;
+            const render = () => {
+                const matches = posts.filter(post => !selected.size || JSON.parse(post.dataset.tags!).some((tag: string) => selected.has(tag)));
+                const total = Math.max(1, Math.ceil(matches.length / size));
+                current = Math.max(1, Math.min(current, total));
+                const visible = new Set(matches.slice((current - 1) * size, current * size));
+                posts.forEach(post => post.hidden = !visible.has(post));
+                chips.forEach(chip => chip.setAttribute('aria-pressed', String(selected.has(chip.dataset.tag!))));
+                this.querySelector<HTMLElement>('[data-empty]')!.hidden = matches.length > 0;
+                this.querySelector<HTMLElement>('[data-pagination]')!.hidden = total <= 1;
+                this.querySelector('[data-page-label]')!.textContent = `${current} / ${total}`;
+                this.querySelector('[data-status]')!.textContent = `${matches.length} ${document.documentElement.lang.startsWith('zh') ? '篇文章' : 'articles'}`;
+                prev.disabled = current === 1;
+                next.disabled = current === total;
+            };
+            const restore = () => {
+                const params = new URLSearchParams(location.search);
+                selected = new Set(params.getAll('tag').filter(tag => chips.some(chip => chip.dataset.tag === tag)));
+                current = Number(params.get('page') ?? location.pathname.match(/\/page\/(\d+)/)?.[1]) || 1;
+                render();
+            };
+            const update = () => {
+                const url = new URL(location.href);
+                url.pathname = '/blog/';
+                url.searchParams.delete('tag');
+                url.searchParams.delete('page');
+                selected.forEach(tag => url.searchParams.append('tag', tag));
+                if (current > 1) url.searchParams.set('page', String(current));
+                history.pushState(null, '', url);
+                render();
+            };
+            chips.forEach(chip => chip.addEventListener('click', () => {
+                const tag = chip.dataset.tag!;
+                if (selected.has(tag)) selected.delete(tag); else selected.add(tag);
+                current = 1;
+                update();
+            }));
+            prev.addEventListener('click', () => { current--; update(); });
+            next.addEventListener('click', () => { current++; update(); });
+            this.abort = new AbortController();
+            window.addEventListener('popstate', restore, { signal: this.abort.signal });
+            restore();
+        }
+        abort?: AbortController;
+        disconnectedCallback() { this.abort?.abort(); }
+    }
+    if (!customElements.get('blog-filter')) customElements.define('blog-filter', BlogFilter);
+</script>
