@@ -25,7 +25,7 @@ const hasContent = Boolean(page.body?.trim());
 <BaseLayout title={seo?.title ?? title} description={seo?.description} image={seo?.image} showHeader={false}>
     <article class="mb-16 sm:mb-24">
         <header class="mb-8">
-            <h1 class="font-sans text-[26px] leading-[1.4] font-semibold sm:text-[32px]">{page.id === "about" ? <Localized zh="关于我" /> : title}</h1>
+            <h1 class="font-sans text-2xl leading-[1.4] font-semibold sm:text-[28px]">{page.id === "about" ? <Localized zh="关于我" /> : title}</h1>
         </header>
         {
             hasContent ? (
