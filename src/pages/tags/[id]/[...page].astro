@@ -1,11 +1,7 @@
 ---
-import Localized from '../../../components/Localized.astro';
 import type { GetStaticPathsOptions, Page } from 'astro';
 import { type CollectionEntry, getCollection } from 'astro:content';
-import Pagination from '../../../components/Pagination.astro';
-import PostPreview from '../../../components/PostPreview.astro';
 import siteConfig from '../../../data/site-config';
-import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { hasContentFiles } from '../../../utils/content-files';
 import { getAllTags, getPostsByTag, sortItemsByDateDesc } from '../../../utils/data-utils';
 
@@ -26,20 +22,5 @@ export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
 
 type Props = { page: Page<CollectionEntry<'blog'>> };
 
-const { page } = Astro.props;
-const blog = page.data;
-const params = Astro.params;
-const allPosts = hasContentFiles('src/content/blog')
-    ? await getCollection('blog')
-    : [];
-const allTags = getAllTags(allPosts);
-const currentTag = allTags.find((tag) => {
-    return tag.id === params.id;
-});
+return Astro.redirect(`/blog/?tag=${encodeURIComponent(Astro.params.id!)}`);
 ---
-
-<BaseLayout title={`标签：${currentTag?.name}`} titleEn={`Tag: ${currentTag?.name}`} description={`查看与 ${currentTag?.name} 相关的文章。`} descriptionEn={`Browse posts tagged ${currentTag?.name}.`} showHeader={false}>
-    <h1 class="mb-12 font-sans text-2xl leading-tight font-semibold sm:mb-16 sm:text-4xl"><Localized zh={`标签：${currentTag?.name}`} en={`Tag: ${currentTag?.name}`} /></h1>
-    {blog.map((post) => <PostPreview post={post} class="mb-8 sm:mb-10" />)}
-    {page.lastPage > 1 && <Pagination page={page} class="mt-10 sm:mt-12" />}
-</BaseLayout>
