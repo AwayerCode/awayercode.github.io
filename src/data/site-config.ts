@@ -1,7 +1,7 @@
 import type { SiteConfig } from '../types';
 
 const siteConfig: SiteConfig = {
-    website: 'https://example.com',
+    website: 'https://awayercode.github.io',
     title: 'Awayer',
     subtitle: 'Coder, Writer, Problem Solver',
     description: '一个以中文内容为主的博客与项目展示站点。',
