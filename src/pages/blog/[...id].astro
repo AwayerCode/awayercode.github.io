@@ -1,4 +1,5 @@
 ---
+import Localized from '../../components/Localized.astro';
 import { type CollectionEntry, getCollection, render } from 'astro:content';
 import { validateContentId } from '../../utils/archive-utils';
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -44,7 +45,7 @@ const { Content } = await render(post);
                     <>
                         {' '}
                         <span>
-                                （更新于 <FormattedDate date={updatedDate} />）
+                                <Localized zh="（更新于 " en="(Updated " /> <FormattedDate date={updatedDate} /><Localized zh="）" en=")" />
                         </span>
                     </>
                 )
@@ -66,13 +67,13 @@ const { Content } = await render(post);
                     </div>
                 )
             }
-            <Button class="copy-url-button" aria-label="复制链接" data-url={href} data-tooltip-default="复制链接" data-tooltip-success="已复制">分享</Button>
+            <Button class="copy-url-button" aria-label="复制链接" data-i18n-zh="复制链接" data-i18n-en="Copy link" data-i18n-attr="aria-label" data-url={href}><Localized zh="分享" /></Button>
         </div>
     </article>
     {
         (prevPost || nextPost) && (
             <div class="my-16 sm:my-24">
-                <h2 class="mb-12 font-serif text-xl italic sm:mb-16 sm:text-2xl">继续阅读</h2>
+                <h2 class="mb-12 font-serif text-xl italic sm:mb-16 sm:text-2xl"><Localized zh="继续阅读" /></h2>
                 {nextPost && <PostPreview post={nextPost} class="mb-10 sm:mb-12" headingLevel="h3" />}
                 {prevPost && <PostPreview post={prevPost} class="mb-10 sm:mb-12" headingLevel="h3" />}
             </div>
@@ -88,16 +89,20 @@ const { Content } = await render(post);
         });
 
         async function copyUrl(button: HTMLButtonElement) {
-            let url = button.getAttribute('data-url') || '';
-            let label = button.innerText;
-
-            await navigator.clipboard.writeText(url);
-
-            button.innerText = '已复制';
-
-            setTimeout(() => {
-                button.innerText = label;
-            }, 2500);
+            const label = button.querySelector<HTMLElement>('[data-i18n-zh]');
+            if (!label) return;
+            function show(zh: string, en: string) {
+                label!.dataset.i18nZh = zh;
+                label!.dataset.i18nEn = en;
+                label!.textContent = document.documentElement.lang === 'en' ? en : zh;
+            }
+            try {
+                await navigator.clipboard.writeText(window.location.href);
+                show('已复制', 'Copied');
+            } catch {
+                show('复制失败，请重试', 'Copy failed. Try again.');
+            }
+            setTimeout(() => show('分享', 'Share'), 2500);
         }
     });
 </script>

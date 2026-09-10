@@ -36,7 +36,10 @@
     function updateToggleLabel() {
         const button = document.getElementById('theme-toggle');
         if (!button) return;
-        const label = root.classList.contains('dark') ? '切换为浅色模式' : '切换为深色模式';
+        const isDark = root.classList.contains('dark');
+        const label = root.lang === 'en'
+            ? (isDark ? 'Switch to light mode' : 'Switch to dark mode')
+            : (isDark ? '切换为浅色模式' : '切换为深色模式');
         button.setAttribute('aria-label', label);
         button.setAttribute('title', label);
     }
@@ -52,6 +55,8 @@
             storeTheme(theme);
         };
     }
+
+    document.addEventListener('site:language-change', updateToggleLabel);
 
     // Set initial theme
     applyTheme(getActiveTheme());

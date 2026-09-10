@@ -1,4 +1,7 @@
 ---
+import LanguageToggle from './LanguageToggle.astro';
+import Localized from './Localized.astro';
+import { i18n } from '../utils/i18n';
 import NavLink from './NavLink.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import siteConfig from '../data/site-config';
@@ -6,7 +9,7 @@ import siteConfig from '../data/site-config';
 const navLinks = siteConfig.headerNavLinks ?? [];
 ---
 
-<nav class="relative min-h-10 pt-4 pb-12 sm:min-h-14 sm:pb-24 md:pt-8" aria-label="主导航">
+<nav class="relative min-h-10 pt-4 pb-12 sm:min-h-14 sm:pb-24 md:pt-8" aria-label="主导航" {...i18n("主导航", undefined, "aria-label")}>
     {
         navLinks.length > 0 && (
             <div class="relative mx-auto w-full max-w-3xl">
@@ -28,7 +31,7 @@ const navLinks = siteConfig.headerNavLinks ?? [];
                                 class="text-main font-serif text-xl hover:underline hover:decoration-1 hover:underline-offset-[3px] md:text-base"
                                 href={link.href}
                             >
-                                {link.text}
+                                <Localized zh={link.text} />
                             </NavLink>
                         </li>
                     ))}
@@ -36,7 +39,8 @@ const navLinks = siteConfig.headerNavLinks ?? [];
             </div>
         )
     }
-    <div class="absolute top-4 right-0 z-10 md:top-8">
+    <div class="absolute top-4 right-0 z-10 flex items-center gap-2 md:top-8">
+        <LanguageToggle />
         <ThemeToggle />
     </div>
 </nav>
@@ -91,14 +95,22 @@ const navLinks = siteConfig.headerNavLinks ?? [];
 </style>
 
 <script>
+    function updateMenuLabel() {
+        const button = document.querySelector('.menu-toggle');
+        const expanded = button?.getAttribute('aria-expanded') === 'true';
+        const english = document.documentElement.lang === 'en';
+        button?.setAttribute('aria-label', english ? (expanded ? 'Close menu' : 'Open menu') : (expanded ? '关闭菜单' : '打开菜单'));
+    }
+    document.addEventListener('site:language-change', updateMenuLabel);
     function menuToggle() {
+        updateMenuLabel();
         const menu = document.querySelector('.menu');
         const menuToggleBtn = document.querySelector('.menu-toggle');
         menuToggleBtn?.addEventListener('click', () => {
             const isMenuExpanded = menuToggleBtn.getAttribute('aria-expanded') === 'true';
             menuToggleBtn.classList.toggle('is-active');
             menuToggleBtn.setAttribute('aria-expanded', isMenuExpanded ? 'false' : 'true');
-            menuToggleBtn.setAttribute('aria-label', isMenuExpanded ? '打开菜单' : '关闭菜单');
+            updateMenuLabel();
             menu?.classList.toggle('is-visible');
         });
     }

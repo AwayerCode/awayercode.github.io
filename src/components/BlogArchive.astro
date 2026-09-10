@@ -1,4 +1,5 @@
 ---
+import Localized from './Localized.astro';
 import type { ArchivePage } from '../utils/archive-utils';
 import { type CollectionEntry } from 'astro:content';
 import EmptyState from './EmptyState.astro';
@@ -13,7 +14,7 @@ const blog = page.data;
 ---
 
 <BaseLayout title="文章" description="浏览全部博客文章。" showHeader={false}>
-    <h1 class="mb-12 font-serif text-2xl leading-tight italic sm:mb-16 sm:text-4xl">文章</h1>
+    <h1 class="mb-12 font-serif text-2xl leading-tight italic sm:mb-16 sm:text-4xl"><Localized zh="文章" /></h1>
     {
         blog.length > 0 ? (
             <>

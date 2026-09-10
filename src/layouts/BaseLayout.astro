@@ -15,6 +15,7 @@ const { showHeader = true, ...head } = Astro.props;
     <head>
         <BaseHead {...head} />
         <ClientRouter />
+        <script is:inline src="/language-toggle.js"></script>
         <script is:inline src="/theme-toggle.js"></script>
     </head>
     <body class="bg-main text-main">
