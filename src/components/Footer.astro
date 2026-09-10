@@ -1,6 +1,7 @@
 ---
+import siteConfig from '../data/site-config';
 ---
 
 <footer class="mx-auto w-full max-w-3xl pt-8 pb-8 sm:pt-12 sm:pb-10">
-    <div class="border-main border-t border-dashed"></div>
+    <p class="text-muted text-xs leading-relaxed">© {new Date().getFullYear()} {siteConfig.title}</p>
 </footer>

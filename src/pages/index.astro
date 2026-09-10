@@ -25,7 +25,6 @@ const sectionTitleClass = 'text-base font-medium text-secondary';
     <section class="mb-12">
         <div class="mb-6 flex items-baseline justify-between gap-4">
             <h2 class={sectionTitleClass}><Localized zh="文章" /></h2>
-            <a class="quiet-link" href="/blog"><Localized zh="查看全部文章" /> →</a>
         </div>
         {posts.length > 0 ? homePosts.map((post) => (
             <PostPreview post={post} class="mb-8 sm:mb-10" headingLevel="h3" />
