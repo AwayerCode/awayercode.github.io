@@ -30,15 +30,25 @@
     function applyTheme(theme) {
         const isDark = theme === 'dark';
         root.classList.toggle('dark', isDark);
+        updateToggleLabel();
+    }
+
+    function updateToggleLabel() {
+        const button = document.getElementById('theme-toggle');
+        if (!button) return;
+        const label = root.classList.contains('dark') ? '切换为浅色模式' : '切换为深色模式';
+        button.setAttribute('aria-label', label);
+        button.setAttribute('title', label);
     }
 
     function setupThemeToggle() {
         const button = document.getElementById('theme-toggle');
         if (!button) return;
+        updateToggleLabel();
 
         button.onclick = () => {
-            const isDark = root.classList.toggle('dark');
-            const theme = isDark ? 'dark' : 'light';
+            const theme = root.classList.contains('dark') ? 'light' : 'dark';
+            applyTheme(theme);
             storeTheme(theme);
         };
     }
