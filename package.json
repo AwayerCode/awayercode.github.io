@@ -9,7 +9,7 @@
         "preview": "ASTRO_TELEMETRY_DISABLED=1 node ./node_modules/astro/astro.js preview",
         "astro": "ASTRO_TELEMETRY_DISABLED=1 node ./node_modules/astro/astro.js",
         "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
-        "test": "node tests/regression.mjs"
+        "test": "node --test tests/language.test.mjs && node tests/regression.mjs"
     },
     "dependencies": {
         "@astrojs/mdx": "^4.3.10",

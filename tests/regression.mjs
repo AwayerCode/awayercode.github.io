@@ -38,6 +38,8 @@ try {
     for (const page of ['index.html', 'blog/index.html', 'projects/index.html', 'tags/index.html', 'about/index.html']) {
         const html = read(page);
         assert.match(html, /lang="zh-CN"/);
+        assert.match(html, /id="language-toggle"/);
+        assert.match(html, /data-i18n-en="(?:Posts|Projects|Tags)"/);
         assert.doesNotMatch(html, /RULE\.md|src\/content\/|dante-preview|example\.com/);
     }
     for (const collection of ['blog', 'projects']) {
@@ -53,6 +55,7 @@ try {
         assert.match(read(`${collection}/topic/nested/index.html`), new RegExp(`Body of ${collection} nested`));
         const pageTwo = read(`${collection}/page/2/index.html`);
         assert.match(pageTwo, /aria-label="分页"/);
+        assert.match(pageTwo, /data-i18n-en="Page 2 of/);
         assert.match(pageTwo, new RegExp(`href="/${collection}/"`));
         assert.match(nav(pageTwo, `/${collection}`), /aria-current="location"/);
         assert.match(nav(read(`${collection}/topic/nested/index.html`), `/${collection}`), /aria-current="location"/);

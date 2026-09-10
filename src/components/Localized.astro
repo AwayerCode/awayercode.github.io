@@ -1,0 +1,6 @@
+---
+import { i18n } from '../utils/i18n';
+type Props = { zh: string; en?: string };
+const { zh, en } = Astro.props;
+---
+<span {...i18n(zh, en)}>{zh}</span>

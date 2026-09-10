@@ -1,4 +1,5 @@
 ---
+import Localized from '../../components/Localized.astro';
 import { type CollectionEntry, getCollection, render } from 'astro:content';
 import ProjectPreview from '../../components/ProjectPreview.astro';
 import { validateContentId } from '../../utils/archive-utils';
@@ -45,7 +46,7 @@ const { Content } = await render(project);
     {
         (prevProject || nextProject) && (
             <div class="my-16 sm:my-24">
-                <h2 class="mb-12 font-serif text-xl italic sm:mb-16 sm:text-2xl">继续阅读</h2>
+                <h2 class="mb-12 font-serif text-xl italic sm:mb-16 sm:text-2xl"><Localized zh="继续阅读" /></h2>
                 {nextProject && <ProjectPreview project={nextProject} class="mb-10 sm:mb-12" headingLevel="h3" />}
                 {prevProject && <ProjectPreview project={prevProject} class="mb-10 sm:mb-12" headingLevel="h3" />}
             </div>

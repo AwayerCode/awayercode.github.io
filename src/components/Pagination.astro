@@ -1,4 +1,6 @@
 ---
+import Localized from './Localized.astro';
+import { i18n } from '../utils/i18n';
 import type { ArchivePage } from '../utils/archive-utils';
 type Props = { page: Pick<ArchivePage<unknown>, 'url' | 'currentPage' | 'lastPage'>; class?: string };
 
@@ -9,25 +11,27 @@ import IconButton from './IconButton.astro';
 const { page, class: className } = Astro.props;
 ---
 
-<nav aria-label="分页" class:list={['relative px-12 py-2 text-center', className]}>
+<nav aria-label="分页" {...i18n("分页", undefined, "aria-label")} class:list={['relative px-12 py-2 text-center', className]}>
     {
         page.url.prev && (
             <IconButton
                 class="absolute top-1/2 left-0 -translate-y-1/2"
                 href={page.url.prev}
                 aria-label={`前往第 ${page.currentPage - 1} 页，共 ${page.lastPage} 页`}
+                {...i18n(`前往第 ${page.currentPage - 1} 页，共 ${page.lastPage} 页`, `Go to page ${page.currentPage - 1} of ${page.lastPage}`, "aria-label")}
             >
                 <ArrowLeft class="h-5 w-5 fill-current" />
             </IconButton>
         )
     }
-    <span class="text-sm" aria-current="page">第 {page.currentPage} 页，共 {page.lastPage} 页</span>
+    <span class="text-sm" aria-current="page"><Localized zh={`第 ${page.currentPage} 页，共 ${page.lastPage} 页`} en={`Page ${page.currentPage} of ${page.lastPage}`} /></span>
     {
         page.url.next && (
             <IconButton
                 class="absolute top-1/2 right-0 -translate-y-1/2"
                 href={page.url.next}
                 aria-label={`前往第 ${page.currentPage + 1} 页，共 ${page.lastPage} 页`}
+                {...i18n(`前往第 ${page.currentPage + 1} 页，共 ${page.lastPage} 页`, `Go to page ${page.currentPage + 1} of ${page.lastPage}`, "aria-label")}
             >
                 <ArrowRight class="h-5 w-5 fill-current" />
             </IconButton>
