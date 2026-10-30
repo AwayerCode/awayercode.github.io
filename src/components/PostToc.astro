@@ -39,10 +39,10 @@ const items = Astro.props.headings.filter((h) => (h.depth === 2 || h.depth === 3
     .post-toc-summary { cursor: pointer; font-weight: 600; }
     .post-toc-title { display: none; }
     .post-toc ol { list-style: none; margin: 0.5rem 0 0; padding: 0; }
-    .post-toc-item a { display: block; padding: 0.3rem 0 0.3rem 0.75rem; border-left: 2px solid transparent; color: var(--muted); line-height: 1.45; text-decoration: none; transition: color 0.15s, border-color 0.15s; }
+    .post-toc-item a { display: block; padding: 0.3rem 0 0.3rem 0.75rem; border-left: 3px solid transparent; color: var(--muted); line-height: 1.45; text-decoration: none; transition: color 0.15s, border-color 0.15s; }
     .post-toc-item.is-sub a { padding-left: 1.5rem; font-size: 13px; }
     .post-toc-item a:hover { color: var(--text-main); }
-    .post-toc-item a[aria-current='location'] { color: var(--text-main); border-left-color: var(--post-accent, var(--text-main)); font-weight: 600; }
+    .post-toc-item a[aria-current='location'] { color: var(--post-accent, var(--text-main)); border-left-color: var(--post-accent, var(--text-main)); font-weight: 600; }
     @media (min-width: 1280px) {
         .post-toc-rail { position: absolute; top: 0; bottom: 0; right: 100%; width: 13.5rem; margin: 0 3rem 0 0; }
         .post-toc { position: sticky; top: 2.5rem; max-height: calc(100vh - 5rem); overflow-y: auto; border: 0; padding: 0; }
