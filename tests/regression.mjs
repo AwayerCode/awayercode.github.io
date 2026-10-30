@@ -80,7 +80,12 @@ try {
     assert.match(tocHtml, /<h2 id="第一部分"/);
     assert.match(tocHtml, /href="#子节-detail"/);
     assert.doesNotMatch(tocHtml, /href="#too-deep"/);
-    assert.doesNotMatch(read('blog/entry-1/index.html'), /<details[^>]*data-post-toc/);
+    assert.match(tocHtml, /<aside class="post-toc-rail[^"]*"[^>]*>\s*<div class="post-toc[^"]*" data-post-toc/);
+    assert.doesNotMatch(tocHtml, /<details|<summary/);
+    assert.doesNotMatch(read('blog/entry-1/index.html'), /class="post-toc-rail/);
+    const tocCss = readdirSync(join(temp, 'dist/_astro')).filter((f) => f.endsWith('.css')).map((f) => read(`_astro/${f}`)).join('\n');
+    assert.match(tocCss, /\.post-toc-rail\[[^\]]+\]\{display:none\}/, 'TOC must be hidden on narrow screens');
+    assert.match(tocCss, /@media\s*\(min-width:\s*1280px\)\{\.post-toc-rail\[[^\]]+\]\{display:block/, 'TOC shown only at >=1280px');
     rmSync(tocFile);
     assert.doesNotMatch(read('index.html'), /查看全部文章/);
     assert.match(read('index.html'), /查看全部项目/);

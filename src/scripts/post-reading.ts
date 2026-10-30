@@ -6,14 +6,12 @@ export function initPostReading() {
     const article = document.querySelector<HTMLElement>('[data-post-article]');
     if (!article) return;
     const bar = document.querySelector<HTMLElement>('[data-reading-progress]');
-    const toc = document.querySelector<HTMLDetailsElement>('[data-post-toc]');
+    const toc = document.querySelector<HTMLElement>('[data-post-toc]');
     const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]')];
     const targets = links
         .map((link) => ({ link, el: document.getElementById(link.dataset.tocLink ?? '') }))
         .filter((t): t is { link: HTMLAnchorElement; el: HTMLElement } => !!t.el);
-    const wide = window.matchMedia('(min-width: 1280px)');
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (toc && !wide.matches) toc.open = false;
 
     let frame = 0;
     const update = () => {
@@ -41,8 +39,7 @@ export function initPostReading() {
         event.preventDefault();
         el.scrollIntoView({ behavior: reduced.matches ? 'auto' : 'smooth', block: 'start' });
         history.replaceState(null, '', `#${encodeURIComponent(link.dataset.tocLink ?? '')}`);
-        if (toc && !wide.matches) toc.open = false;
-    };
+        };
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
     toc?.addEventListener('click', onClick);
