@@ -14,16 +14,18 @@ const navLinks = siteConfig.headerNavLinks ?? [];
         navLinks.length > 0 && (
             <div class="relative mx-auto w-full max-w-3xl">
                 <button
-                    class="menu-toggle relative z-30 -ml-1 flex h-8 w-8 cursor-pointer items-center justify-center md:hidden"
+                    class="menu-toggle relative z-40 -ml-1 flex h-8 w-8 cursor-pointer items-center justify-center md:hidden"
                     aria-label="打开菜单"
                     aria-expanded="false"
                     aria-controls="menu-items"
+                    type="button"
                 >
                     <span class="menu-toggle-icon relative h-px w-6 bg-current" />
                 </button>
+                <div class="menu-backdrop" hidden data-menu-backdrop aria-hidden="true"></div>
                 <ul
                     id="menu-items"
-                    class="menu max-md:bg-main max-md:border-main flex gap-6 max-md:absolute max-md:-top-2.5 max-md:-left-2.5 max-md:z-20 max-md:max-w-64 max-md:flex-col max-md:gap-1 max-md:border max-md:border-dashed max-md:px-3 max-md:pt-16 max-md:pb-10"
+                    class="menu flex gap-6 max-md:fixed max-md:inset-y-0 max-md:left-0 max-md:z-30 max-md:w-[min(18rem,85vw)] max-md:flex-col max-md:gap-1 max-md:bg-main max-md:px-5 max-md:pt-16 max-md:pb-10 max-md:shadow-[4px_0_24px_rgba(0,0,0,0.18)]"
                 >
                     {navLinks.map((link) => (
                         <li class="py-1">
@@ -49,13 +51,34 @@ const navLinks = siteConfig.headerNavLinks ?? [];
     @reference "tailwindcss";
 
     @media (max-width: 767px) {
+        .menu-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 25;
+            background: rgba(0, 0, 0, 0.45);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition:
+                opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .menu-backdrop.is-visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
         .menu {
             @apply invisible opacity-0;
-            width: calc(100% + 1.25rem);
+            transform: translateX(-0.75rem);
+            transition:
+                opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .menu.is-visible {
             @apply visible opacity-100;
-            transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+            transform: translateX(0);
         }
         .menu-toggle-icon {
             transition: width 0.1s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
@@ -102,18 +125,47 @@ const navLinks = siteConfig.headerNavLinks ?? [];
         button?.setAttribute('aria-label', english ? (expanded ? 'Close menu' : 'Open menu') : (expanded ? '关闭菜单' : '打开菜单'));
     }
     document.addEventListener('site:language-change', updateMenuLabel);
+
+    function setMenuOpen(open: boolean) {
+        const menu = document.querySelector('.menu');
+        const backdrop = document.querySelector('[data-menu-backdrop]');
+        const menuToggleBtn = document.querySelector('.menu-toggle');
+        if (!menuToggleBtn) return;
+        menuToggleBtn.classList.toggle('is-active', open);
+        menuToggleBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        menu?.classList.toggle('is-visible', open);
+        backdrop?.classList.toggle('is-visible', open);
+        if (backdrop instanceof HTMLElement) {
+            backdrop.hidden = !open;
+            backdrop.setAttribute('aria-hidden', open ? 'false' : 'true');
+        }
+        document.documentElement.classList.toggle('menu-open', open);
+        updateMenuLabel();
+    }
+
     function menuToggle() {
         updateMenuLabel();
         const menu = document.querySelector('.menu');
+        const backdrop = document.querySelector('[data-menu-backdrop]');
         const menuToggleBtn = document.querySelector('.menu-toggle');
         menuToggleBtn?.addEventListener('click', () => {
             const isMenuExpanded = menuToggleBtn.getAttribute('aria-expanded') === 'true';
-            menuToggleBtn.classList.toggle('is-active');
-            menuToggleBtn.setAttribute('aria-expanded', isMenuExpanded ? 'false' : 'true');
-            updateMenuLabel();
-            menu?.classList.toggle('is-visible');
+            setMenuOpen(!isMenuExpanded);
+        });
+        backdrop?.addEventListener('click', () => setMenuOpen(false));
+        menu?.querySelectorAll('a').forEach((link) => {
+            link.addEventListener('click', () => setMenuOpen(false));
         });
     }
+
+    function onKeydown(event: KeyboardEvent) {
+        if (event.key === 'Escape') setMenuOpen(false);
+    }
+
     menuToggle();
-    document.addEventListener('astro:after-swap', menuToggle);
+    document.addEventListener('keydown', onKeydown);
+    document.addEventListener('astro:after-swap', () => {
+        setMenuOpen(false);
+        menuToggle();
+    });
 </script>

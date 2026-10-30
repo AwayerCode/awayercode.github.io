@@ -1,13 +1,7 @@
 ---
-import type { CollectionEntry } from 'astro:content';
-import FormattedDate from './FormattedDate.astro';
-import Localized from './Localized.astro';
 import { Image } from 'astro:assets';
 import siteConfig from '../data/site-config';
 import avatar from '../assets/avatar.webp';
-
-type Props = { latest: CollectionEntry<'blog'>[] };
-const { latest } = Astro.props;
 ---
 
 <section class="post-end" aria-label="文章结尾" data-i18n-zh="文章结尾" data-i18n-en="End of post" data-i18n-attr="aria-label">
@@ -19,23 +13,6 @@ const { latest } = Astro.props;
             {siteConfig.subtitle && <p class="author-bio">{siteConfig.subtitle}</p>}
         </div>
     </div>
-    {
-        latest.length > 0 && (
-            <nav class="latest-posts" aria-labelledby="latest-posts-title">
-                <h2 id="latest-posts-title" class="latest-title"><Localized zh="最新文章" en="Latest posts" /></h2>
-                <ul>
-                    {latest.map((item) => (
-                        <li>
-                            <a href={`/blog/${item.id}/`}>
-                                <span class="latest-date"><FormattedDate date={item.data.publishDate} /></span>
-                                <span class="latest-name">{item.data.title}</span>
-                            </a>
-                        </li>
-                    ))}
-                </ul>
-            </nav>
-        )
-    }
 </section>
 
 <style>
@@ -46,12 +23,4 @@ const { latest } = Astro.props;
     .author-meta { min-width: 0; }
     .author-name { margin: 0; font-weight: 600; font-size: 16px; }
     .author-bio { margin: 0.25rem 0 0; font-size: 14px; color: var(--muted); }
-    .latest-posts { margin-top: 2.5rem; }
-    .latest-title { margin: 0 0 0.75rem; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
-    .latest-posts ul { list-style: none; margin: 0; padding: 0; }
-    .latest-posts a { display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; padding: 0.6rem 0; border-bottom: 1px solid var(--post-rule, #e5e5e5); color: var(--text-main); text-decoration: none; }
-    .latest-date { flex: 0 0 auto; min-width: 8.5rem; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
-    .latest-name { flex: 1 1 16rem; font-size: 15px; }
-    .latest-posts a:hover .latest-name, .latest-posts a:focus-visible .latest-name { color: var(--post-accent, var(--text-main)); }
-    .latest-posts a:focus-visible { outline: 2px solid var(--post-accent, currentColor); outline-offset: 2px; }
 </style>

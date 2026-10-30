@@ -88,10 +88,9 @@ try {
     assert.match(tocHtml, /data-post-meta[\s\S]*?<time[\s\S]*?data-reading-time="1"[\s\S]*?约 1 分钟[\s\S]*?<h1/);
     assert.match(tocHtml, /data-i18n-en="1 min read"/);
     assert.match(tocHtml, /— END —[\s\S]*?class="author-name[^"]*"[^>]*>Awayer</);
-    const latestHtml = tocHtml.slice(tocHtml.indexOf('class="latest-posts'));
-    const latestLinks = [...latestHtml.slice(0, latestHtml.indexOf('</nav>')).matchAll(/href="(\/blog\/[^"]+)"/g)].map((m) => m[1]);
-    assert.ok(latestLinks.length > 0 && latestLinks.length <= 3, `latest posts count ${latestLinks.length}`);
-    assert.ok(!latestLinks.includes('/blog/toc-fixture/'), 'latest posts must exclude current post');
+    assert.doesNotMatch(tocHtml, /latest-posts|最新文章|Latest posts/);
+    assert.doesNotMatch(tocHtml, /class="[^"]*copy-article-button[^"]*"[\s\S]*?#/);
+    assert.match(tocHtml, /copy-article-button/);
     assert.doesNotMatch(read('blog/entry-1/index.html'), /class="post-toc-rail/);
     assert.doesNotMatch(read('blog/entry-1/index.html'), /<button[^>]*data-toc-fab|<dialog[^>]*data-toc-sheet/);
     assert.match(tocHtml, /<button[^>]*data-toc-fab[^>]*aria-label="打开目录"/);
