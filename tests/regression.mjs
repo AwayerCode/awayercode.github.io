@@ -39,6 +39,7 @@ try {
     for (const page of ['index.html', 'blog/index.html', 'projects/index.html', 'about/index.html']) {
         const html = read(page);
         assert.match(html, /lang="zh-CN"/);
+        assert.match(html, /<html[^>]*class="dark /);
         assert.match(html, /id="language-toggle"/);
         assert.match(html, /data-i18n-en="(?:Posts|Projects|Tags)"/);
         assert.doesNotMatch(html, /RULE\.md|src\/content\/|dante-preview|example\.com/);

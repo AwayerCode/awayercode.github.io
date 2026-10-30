@@ -15,16 +15,10 @@
         } catch {}
     }
 
-    function getSystemTheme() {
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            return 'dark';
-        }
-        return 'light';
-    }
-
+    // Dark is the default for visitors who have not chosen a theme yet.
     function getActiveTheme() {
         const stored = getStoredTheme();
-        return stored || getSystemTheme();
+        return stored === 'light' || stored === 'dark' ? stored : 'dark';
     }
 
     function applyTheme(theme) {

@@ -26,8 +26,9 @@ function page() {
         getElementById: (id) => id === 'language-toggle' ? languageButton : themeButton
     };
 }
-function start(stored, blocked = false) {
-    const storage = new Map([['language', stored], ['theme', 'dark']]);
+function start(stored, blocked = false, theme = 'dark') {
+    const storage = new Map([['language', stored]]);
+    if (theme !== undefined) storage.set('theme', theme);
     const events = new EventTarget(); const doc = page();
     doc.addEventListener = events.addEventListener.bind(events);
     doc.dispatchEvent = events.dispatchEvent.bind(events);
@@ -77,4 +78,10 @@ test('blocked storage and unknown preferences safely fall back to Chinese', () =
     doc.languageButton.onclick();
     doc.dispatchEvent(new Event('astro:after-swap'));
     assert.equal(doc.documentElement.lang, 'en');
+});
+test('dark theme is the default; a saved choice wins', () => {
+    assert.equal(start('zh-CN', false, undefined).doc.documentElement.classList.contains('dark'), true);
+    assert.equal(start('zh-CN', true, undefined).doc.documentElement.classList.contains('dark'), true);
+    assert.equal(start('zh-CN', false, 'light').doc.documentElement.classList.contains('dark'), false);
+    assert.equal(start('zh-CN', false, 'dark').doc.documentElement.classList.contains('dark'), true);
 });
