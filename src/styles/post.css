@@ -1,7 +1,7 @@
 /* Blog post page theme (preview). Only applies on pages containing [data-post-article]. */
 html:has([data-post-article]) {
     /* Accent: orange by default. To try warm gray, swap to the commented values. */
-    --post-accent: #d97a3a;
+    --post-accent: #e08a4f;
     --post-bg: #f7f5ef;
     --post-ink: #17160f;
     --post-body: #403e35;

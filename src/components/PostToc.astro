@@ -49,6 +49,7 @@ const items = Astro.props.headings.filter((h) => (h.depth === 2 || h.depth === 3
         .post-toc-summary { display: none; }
         .post-toc-title { display: block; margin: 0 0 0.25rem; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
     }
+    .post-toc:not([open]) .post-toc-item a { transition: none; }
     @media (prefers-reduced-motion: reduce) { .post-toc-item a { transition: none; } }
 </style>
 
