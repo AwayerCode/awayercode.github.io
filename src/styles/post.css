@@ -1,0 +1,32 @@
+/* Blog post page theme (preview). Only applies on pages containing [data-post-article]. */
+html:has([data-post-article]) {
+    /* Accent: orange by default. To try warm gray, swap to the commented values. */
+    --post-accent: #c2410c; /* gray: #65626f */
+    --post-bg: #f7f5ef;
+    --post-ink: #17160f;
+    --post-body: #403e35;
+    --post-muted: #65626f;
+    --post-rule: rgba(23, 22, 15, 0.13);
+    --font-post-serif: 'Newsreader Variable', 'Noto Serif SC', 'Noto Serif CJK SC', 'Source Han Serif SC', 'Songti SC', STSong, serif;
+}
+html.dark:has([data-post-article]) {
+    --post-accent: #ffb867; /* gray: #9a97a6 */
+    --post-bg: #12110e;
+    --post-ink: #ece8dd;
+    --post-body: #cbc6b8;
+    --post-muted: #9a97a6;
+    --post-rule: rgba(255, 255, 255, 0.12);
+}
+html:has([data-post-article]) body {
+    background-color: var(--post-bg);
+    color: var(--post-ink);
+    --text-main: var(--post-ink);
+    --muted: var(--post-muted);
+}
+[data-post-article] h1 { font-family: var(--font-post-serif); font-weight: 700; letter-spacing: -0.01em; color: var(--post-ink); }
+[data-post-article] .article-body { font-family: var(--font-post-serif); font-size: 18px; line-height: 1.85; color: var(--post-body); }
+[data-post-article] .article-body :is(h2, h3, h4) { color: var(--post-ink); }
+[data-post-article] .article-body a { color: var(--post-ink); text-decoration-color: var(--post-rule); text-underline-offset: 3px; transition: color 0.15s; }
+[data-post-article] .article-body a:hover { color: var(--post-accent); text-decoration-color: currentColor; }
+[data-post-article] .article-body :is(p, li, blockquote) strong { color: var(--post-ink); }
+@media (prefers-reduced-motion: reduce) { [data-post-article] .article-body a { transition: none; } }

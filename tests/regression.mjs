@@ -70,6 +70,18 @@ try {
         assert.match(nav(read(`${collection}/topic/nested/index.html`), `/${collection}`), /aria-current="location"/);
         assert.match(nav(read(`${collection}/index.html`), `/${collection}`), /aria-current="page"/);
     }
+    const tocFile = join(temp, 'src/content/blog/toc-fixture.md');
+    writeFileSync(tocFile, '---\ntitle: "TOC fixture"\npublishDate: 2026-05-23\n---\n\n## 第一部分\n\nA\n\n### 子节 Detail\n\nB\n\n#### Too deep\n\nC\n');
+    build();
+    const tocHtml = read('blog/toc-fixture/index.html');
+    assert.match(tocHtml, /data-reading-progress/);
+    assert.match(tocHtml, /<nav[^>]*aria-label="[^"]*"/);
+    assert.match(tocHtml, /href="#第一部分"[^>]*data-toc-link="第一部分"/);
+    assert.match(tocHtml, /<h2 id="第一部分"/);
+    assert.match(tocHtml, /href="#子节-detail"/);
+    assert.doesNotMatch(tocHtml, /href="#too-deep"/);
+    assert.doesNotMatch(read('blog/entry-1/index.html'), /<details[^>]*data-post-toc/);
+    rmSync(tocFile);
     assert.doesNotMatch(read('index.html'), /查看全部文章/);
     assert.match(read('index.html'), /查看全部项目/);
     const tagDirs = readdirSync(join(temp, 'dist/tags'), { withFileTypes: true }).filter((entry) => entry.isDirectory());
@@ -87,7 +99,7 @@ try {
         assert.match(build(false), /reserved pagination path/);
         rmSync(join(temp, `src/content/${collection}/page`), { recursive: true });
     }
-    console.log('PASS: empty states, metadata, nested/numeric routes, pagination, navigation, distinct tags and reserved paths');
+    console.log('PASS: empty states, post TOC/progress, metadata, nested/numeric routes, pagination, navigation, distinct tags and reserved paths');
 } finally {
     rmSync(temp, { recursive: true, force: true });
 }

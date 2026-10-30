@@ -1,0 +1,57 @@
+---
+import type { MarkdownHeading } from 'astro';
+import Localized from './Localized.astro';
+
+type Props = { headings: MarkdownHeading[] };
+
+const items = Astro.props.headings.filter((h) => (h.depth === 2 || h.depth === 3) && h.slug);
+---
+
+{
+    items.length > 0 && (
+        <aside class="post-toc-rail">
+            <details class="post-toc" data-post-toc open>
+                <summary class="post-toc-summary">
+                    <Localized zh="目录" en="Contents" />
+                </summary>
+                <nav aria-label="目录 / Table of contents">
+                    <p class="post-toc-title" aria-hidden="true">
+                        <Localized zh="目录" en="Contents" />
+                    </p>
+                    <ol>
+                        {items.map((h) => (
+                            <li class:list={['post-toc-item', h.depth === 3 && 'is-sub']}>
+                                <a href={`#${h.slug}`} data-toc-link={h.slug}>
+                                    {h.text}
+                                </a>
+                            </li>
+                        ))}
+                    </ol>
+                </nav>
+            </details>
+        </aside>
+    )
+}
+
+<style>
+    .post-toc-rail { margin-bottom: 2rem; }
+    .post-toc { border: 1px solid var(--post-rule, color-mix(in srgb, var(--border-main) 20%, transparent)); border-radius: 6px; padding: 0.75rem 1rem; font-size: 14px; }
+    .post-toc-summary { cursor: pointer; font-weight: 600; }
+    .post-toc-title { display: none; }
+    .post-toc ol { list-style: none; margin: 0.5rem 0 0; padding: 0; }
+    .post-toc-item a { display: block; padding: 0.3rem 0 0.3rem 0.75rem; border-left: 2px solid transparent; color: var(--muted); line-height: 1.45; text-decoration: none; transition: color 0.15s, border-color 0.15s; }
+    .post-toc-item.is-sub a { padding-left: 1.5rem; font-size: 13px; }
+    .post-toc-item a:hover { color: var(--text-main); }
+    .post-toc-item a[aria-current='location'] { color: var(--text-main); border-left-color: var(--post-accent, var(--text-main)); font-weight: 600; }
+    @media (min-width: 1280px) {
+        .post-toc-rail { position: absolute; top: 0; bottom: 0; right: 100%; width: 13.5rem; margin: 0 3rem 0 0; }
+        .post-toc { position: sticky; top: 2.5rem; max-height: calc(100vh - 5rem); overflow-y: auto; border: 0; padding: 0; }
+        .post-toc-summary { display: none; }
+        .post-toc-title { display: block; margin: 0 0 0.25rem; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+    }
+    @media (prefers-reduced-motion: reduce) { .post-toc-item a { transition: none; } }
+</style>
+
+<style is:global>
+    [data-post-article] :is(h2, h3)[id] { scroll-margin-top: 1.5rem; }
+</style>

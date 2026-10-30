@@ -7,6 +7,10 @@ import Button from '../../components/Button.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import { hasContentFiles } from '../../utils/content-files';
 import { slugify } from '../../utils/common-utils';
+import '@fontsource-variable/newsreader';
+import '../../styles/post.css';
+import PostToc from '../../components/PostToc.astro';
+import ReadingProgress from '../../components/ReadingProgress.astro';
 
 export async function getStaticPaths() {
     const posts = hasContentFiles('src/content/blog')
@@ -23,11 +27,12 @@ type Props = { post: CollectionEntry<'blog'> };
 
 const { post } = Astro.props;
 const { title, publishDate, updatedDate, excerpt, tags = [], seo } = post.data;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 ---
 
 <BaseLayout title={seo?.title ?? title} description={seo?.description ?? excerpt} image={seo?.image} pageType="article" showHeader={false}>
-    <article class="mb-16 sm:mb-24">
+    <ReadingProgress />
+    <article class="relative mb-16 sm:mb-24" data-post-article>
         <header class="mb-8">
             <h1 class="font-sans text-[26px] leading-[1.4] font-semibold sm:text-[32px]">{title}</h1>
             <div class="mt-3 text-[13px] text-muted">
@@ -44,6 +49,7 @@ const { Content } = await render(post);
             }
         </div>
         </header>
+        <PostToc headings={headings} />
         <div class="prose article-body max-w-none">
             <Content />
         </div>
@@ -65,7 +71,9 @@ const { Content } = await render(post);
 </BaseLayout>
 
 <script>
+    import { initPostReading } from '../../scripts/post-reading';
     document.addEventListener('astro:page-load', () => {
+        initPostReading();
         const copyArticleButton = document.querySelector<HTMLButtonElement>('.copy-article-button');
         let resetLabel: ReturnType<typeof setTimeout>;
         copyArticleButton?.addEventListener('click', async () => {
