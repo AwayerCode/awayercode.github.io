@@ -1,6 +1,11 @@
 ---
 import siteConfig from '../data/site-config';
+import { Image } from 'astro:assets';
 import CustomImage from './CustomImage.astro';
+import heroAvatar from '../assets/avatar.webp';
+
+export type Props = { showAvatar?: boolean };
+const { showAvatar = false } = Astro.props;
 
 const titleClass = 'text-[28px] leading-tight font-semibold';
 ---
@@ -22,6 +27,11 @@ const titleClass = 'text-[28px] leading-tight font-semibold';
             </a>
         )
     }
+    {
+        showAvatar && !siteConfig.avatar?.src && (
+            <Image class="hero-avatar" src={heroAvatar} alt="" width={60} height={60} widths={[60, 120]} sizes="60px" loading="eager" fetchpriority="high" decoding="async" />
+        )
+    }
     <div class="grow">
         {
             siteConfig.avatar?.src ? (
@@ -35,3 +45,8 @@ const titleClass = 'text-[28px] leading-tight font-semibold';
         {siteConfig.subtitle && <p class="text-sm leading-relaxed text-secondary">{siteConfig.subtitle}</p>}
     </div>
 </header>
+
+<style>
+    .hero-avatar { flex: 0 0 auto; width: 60px; height: 60px; border-radius: 9999px; object-fit: cover; image-rendering: pixelated; box-shadow: 0 0 0 1px #e5e5e5; }
+    :global(html.dark) .hero-avatar { box-shadow: 0 0 0 1px #2a2a2a; }
+</style>
