@@ -8,14 +8,14 @@ html:has([data-post-article]) {
     --post-body: #404040;
     --post-muted: #6b6b6b;
     --post-rule: #e5e5e5;
-    --font-post: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', 'Noto Sans CJK SC', sans-serif;
+    --font-post: 'Inter Variable', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
 html.dark:has([data-post-article]) {
     --post-progress: #ffb867;
     --post-accent: var(--post-ink);
     --post-bg: #111111;
     --post-ink: #e6e6e6;
-    --post-body: #b3b3b3;
+    --post-body: #d4d4d4;
     --post-muted: #8a8a8a;
     --post-rule: #2a2a2a;
 }
@@ -26,10 +26,13 @@ html:has([data-post-article]) body {
     --muted: var(--post-muted);
 }
 [data-post-article] h1 { font-family: var(--font-post); font-weight: 700; letter-spacing: 0; color: var(--post-ink); }
-[data-post-article] .article-body { font-family: var(--font-post); font-size: 17px; line-height: 1.8; letter-spacing: 0.01em; color: var(--post-body); }
+[data-post-article] .article-body { font-family: var(--font-post); font-size: 16px; font-weight: 400; line-height: 1.8; letter-spacing: 0.02em; color: var(--post-body); }
 [data-post-article] .article-body :is(h2, h3, h4) { color: var(--post-ink); font-family: var(--font-post); letter-spacing: 0; }
 [data-post-article] .article-body p { margin-block: 0 1.25em; }
-@media (min-width: 640px) { [data-post-article] .article-body { font-size: 17.5px; } }
+@media (min-width: 640px) { [data-post-article] .article-body { font-size: 17px; } }
+[data-post-article] .article-body h2 { font-size: 24px; line-height: 1.45; font-weight: 600; letter-spacing: 0; }
+[data-post-article] .article-body :not(pre) > code { font-size: 0.875em; letter-spacing: 0; }
+[data-post-article] .article-body pre, [data-post-article] .article-body pre code { font-size: 14px; line-height: 1.6; letter-spacing: 0; }
 [data-post-article] .article-body a { color: var(--post-ink); text-decoration-color: var(--post-rule); text-underline-offset: 3px; transition: color 0.15s; }
 [data-post-article] .article-body a:hover { color: var(--post-accent); text-decoration-color: currentColor; }
 [data-post-article] .article-body :is(p, li, blockquote) strong { color: var(--post-ink); }

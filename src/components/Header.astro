@@ -29,7 +29,7 @@ const titleClass = 'text-[28px] leading-tight font-semibold';
     }
     {
         showAvatar && !siteConfig.avatar?.src && (
-            <Image class="hero-avatar" src={heroAvatar} alt="" width={60} height={60} widths={[60, 120]} sizes="60px" loading="eager" fetchpriority="high" decoding="async" />
+            <Image class="hero-avatar" src={heroAvatar} alt="" width={48} height={48} widths={[48, 96]} sizes="48px" loading="eager" fetchpriority="high" decoding="async" />
         )
     }
     <div class="grow">
@@ -47,6 +47,6 @@ const titleClass = 'text-[28px] leading-tight font-semibold';
 </header>
 
 <style>
-    .hero-avatar { flex: 0 0 auto; width: 60px; height: 60px; border-radius: 9999px; object-fit: cover; image-rendering: pixelated; box-shadow: 0 0 0 1px #e5e5e5; }
+    .hero-avatar { flex: 0 0 auto; width: 48px; height: 48px; border-radius: 9999px; object-fit: cover; image-rendering: pixelated; box-shadow: 0 0 0 1px #e5e5e5; }
     :global(html.dark) .hero-avatar { box-shadow: 0 0 0 1px #2a2a2a; }
 </style>
