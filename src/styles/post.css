@@ -1,7 +1,8 @@
 /* Blog post page theme (preview). Only applies on pages containing [data-post-article]. */
 html:has([data-post-article]) {
-    /* Accent: orange by default. To try warm gray, swap to the commented values. */
-    --post-accent: #e08a4f;
+    /* Mono theme: orange is reserved for the top reading progress bar only. */
+    --post-progress: #e08a4f;
+    --post-accent: var(--post-ink);
     --post-bg: #f7f5ef;
     --post-ink: #17160f;
     --post-body: #403e35;
@@ -10,7 +11,8 @@ html:has([data-post-article]) {
     --font-post: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', 'Noto Sans CJK SC', sans-serif;
 }
 html.dark:has([data-post-article]) {
-    --post-accent: #ffb867;
+    --post-progress: #ffb867;
+    --post-accent: var(--post-ink);
     --post-bg: #12110e;
     --post-ink: #ece8dd;
     --post-body: #cbc6b8;
@@ -53,9 +55,9 @@ html:has([data-post-article]) body {
 [data-post-article] .article-body blockquote {
     margin: 1.75em 0;
     padding: 0.9em 1.1em;
-    border-left: 3px solid var(--post-accent);
+    border-left: 3px solid var(--post-muted);
     border-radius: 0 6px 6px 0;
-    background: color-mix(in srgb, var(--post-accent) 8%, transparent);
+    background: color-mix(in srgb, var(--post-ink) 4%, transparent);
     color: var(--post-ink);
     font-style: normal;
     line-height: 1.8;
