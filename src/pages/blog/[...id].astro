@@ -9,6 +9,9 @@ import { hasContentFiles } from '../../utils/content-files';
 import { slugify } from '../../utils/common-utils';
 import '@fontsource-variable/inter';
 import '../../styles/post.css';
+import PostEnd from '../../components/PostEnd.astro';
+import { readingMinutes } from '../../utils/reading-time';
+import { sortItemsByDateDesc } from '../../utils/data-utils';
 import PostToc from '../../components/PostToc.astro';
 import ReadingProgress from '../../components/ReadingProgress.astro';
 
@@ -17,15 +20,17 @@ export async function getStaticPaths() {
         ? await getCollection('blog')
         : [];
     posts.forEach((item) => validateContentId(item.id));
+    const sorted = [...posts].sort(sortItemsByDateDesc);
     return posts.map((post) => ({
         params: { id: post.id },
-        props: { post }
+        props: { post, latest: sorted.filter((item) => item.id !== post.id).slice(0, 3) }
     }));
 }
 
-type Props = { post: CollectionEntry<'blog'> };
+type Props = { post: CollectionEntry<'blog'>; latest: CollectionEntry<'blog'>[] };
 
-const { post } = Astro.props;
+const { post, latest } = Astro.props;
+const minutes = readingMinutes(post.body);
 const { title, publishDate, updatedDate, excerpt, tags = [], seo } = post.data;
 const { Content, headings } = await render(post);
 ---
@@ -34,20 +39,21 @@ const { Content, headings } = await render(post);
     <ReadingProgress />
     <article class="relative mb-16 sm:mb-24" data-post-article>
         <header class="mb-8">
-            <h1 class="font-sans text-[26px] leading-[1.4] font-semibold sm:text-[32px]">{title}</h1>
-            <div class="mt-3 text-[13px] text-muted">
+            <div class="post-meta" data-post-meta>
                 <FormattedDate date={publishDate} />
                 {
                     updatedDate && (
-                    <>
-                        {' '}
                         <span>
-                                <Localized zh="（更新于 " en="(Updated " /> <FormattedDate date={updatedDate} /><Localized zh="）" en=")" />
+                            <Localized zh="更新于 " en="Updated " /><FormattedDate date={updatedDate} />
                         </span>
-                    </>
-                )
-            }
-        </div>
+                    )
+                }
+                {tags.map((tag) => (
+                    <a class="post-meta-tag" href={`/blog/?tag=${encodeURIComponent(slugify(tag))}`}>{tag}</a>
+                ))}
+                <span data-reading-time={minutes}><Localized zh={`约 ${minutes} 分钟`} en={`${minutes} min read`} /></span>
+            </div>
+            <h1 class="mt-3 font-sans text-[26px] leading-[1.4] font-semibold sm:text-[32px]">{title}</h1>
         </header>
         <PostToc headings={headings} />
         <div class="prose article-body max-w-none">
@@ -67,14 +73,21 @@ const { Content, headings } = await render(post);
             }
             <Button type="button" class="copy-article-button"><Localized zh="复制全文" en="Copy full text" /></Button>
         </div>
+        <PostEnd latest={latest} />
+        <p class="sr-only" role="status" aria-live="polite" data-anchor-status></p>
     </article>
 </BaseLayout>
 
 <script>
     import { destroyPostReading, initPostReading } from '../../scripts/post-reading';
-    document.addEventListener('astro:before-swap', destroyPostReading);
+    import { destroyHeadingAnchors, initHeadingAnchors } from '../../scripts/heading-anchors';
+    document.addEventListener('astro:before-swap', () => {
+        destroyPostReading();
+        destroyHeadingAnchors();
+    });
     document.addEventListener('astro:page-load', () => {
         initPostReading();
+        initHeadingAnchors();
         const copyArticleButton = document.querySelector<HTMLButtonElement>('.copy-article-button');
         let resetLabel: ReturnType<typeof setTimeout>;
         copyArticleButton?.addEventListener('click', async () => {

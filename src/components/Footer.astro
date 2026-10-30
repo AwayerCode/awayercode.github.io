@@ -1,7 +1,26 @@
 ---
+import Localized from './Localized.astro';
 import siteConfig from '../data/site-config';
+
+const navLinks = siteConfig.headerNavLinks ?? [];
 ---
 
 <footer class="mx-auto w-full max-w-3xl pt-8 pb-4 sm:pt-12 sm:pb-5">
+    {
+        navLinks.length > 0 && (
+            <nav class="site-footer-nav" aria-label="页脚导航" data-i18n-zh="页脚导航" data-i18n-en="Footer navigation" data-i18n-attr="aria-label">
+                {navLinks.map((link) => (
+                    <a href={link.href}><Localized zh={link.text} /></a>
+                ))}
+                <a href="/rss.xml">RSS</a>
+            </nav>
+        )
+    }
     <p class="text-muted text-center text-xs leading-relaxed">© {new Date().getFullYear()} {siteConfig.title}</p>
 </footer>
+
+<style>
+    .site-footer-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.25rem 1.25rem; margin-bottom: 0.75rem; font-size: 13px; }
+    .site-footer-nav a { color: var(--muted); text-decoration: none; }
+    .site-footer-nav a:hover { color: var(--text-main); text-decoration: underline; text-underline-offset: 3px; }
+</style>

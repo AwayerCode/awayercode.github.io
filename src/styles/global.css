@@ -10,10 +10,10 @@
     --border-main: #171717;
 }
 html.dark {
-    --text-main: #f2f1ec;
-    --bg-main: #171717;
-    --bg-muted: #242424;
-    --border-main: #f2f1ec;
+    --text-main: #ece8dd;
+    --bg-main: #12110e;
+    --bg-muted: #1e1c18;
+    --border-main: #ece8dd;
 }
 
 /* Cyan */
@@ -94,7 +94,7 @@ html.dark {
 }
 
 :root { --secondary: #555550; --muted: #686862; }
-html.dark { --secondary: #b7b7b0; --muted: #93938c; }
+html.dark { --secondary: #cbc6b8; --muted: #9a97a6; }
 body { font-family: var(--font-sans); }
 .text-secondary { color: var(--secondary); }
 .text-muted { color: var(--muted); }

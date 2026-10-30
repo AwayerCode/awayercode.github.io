@@ -32,3 +32,34 @@ html:has([data-post-article]) body {
 [data-post-article] .article-body a:hover { color: var(--post-accent); text-decoration-color: currentColor; }
 [data-post-article] .article-body :is(p, li, blockquote) strong { color: var(--post-ink); }
 @media (prefers-reduced-motion: reduce) { [data-post-article] .article-body a { transition: none; } }
+
+/* Meta line above the title */
+.post-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 0; font-size: 13px; color: var(--post-muted); }
+.post-meta > * + *::before { content: '·'; margin: 0 0.6em; color: var(--post-muted); }
+.post-meta-tag { color: var(--post-muted); text-decoration: none; }
+.post-meta-tag:hover { color: var(--post-accent); }
+
+/* Heading anchors (inserted by heading-anchors.ts) */
+[data-post-article] .article-body :is(h2, h3) { position: relative; }
+.heading-anchor { margin-left: 0.4em; color: var(--post-muted); font-weight: 400; text-decoration: none !important; opacity: 0; transition: opacity 0.15s, color 0.15s; }
+.heading-anchor::before { content: '#'; }
+.heading-anchor.is-copied::before { content: '✓'; }
+:is(h2, h3):hover > .heading-anchor, .heading-anchor:focus-visible, .heading-anchor.is-copied { opacity: 1; }
+.heading-anchor:hover, .heading-anchor:focus-visible { color: var(--post-accent); }
+.heading-anchor:focus-visible { outline: 2px solid var(--post-accent); outline-offset: 2px; border-radius: 2px; }
+@media (hover: none) { .heading-anchor { opacity: 0.45; } }
+
+/* Blockquotes */
+[data-post-article] .article-body blockquote {
+    margin: 1.75em 0;
+    padding: 0.9em 1.1em;
+    border-left: 3px solid var(--post-accent);
+    border-radius: 0 6px 6px 0;
+    background: color-mix(in srgb, var(--post-accent) 8%, transparent);
+    color: var(--post-ink);
+    font-style: normal;
+    line-height: 1.8;
+}
+[data-post-article] .article-body blockquote p { margin: 0; }
+[data-post-article] .article-body blockquote p + p { margin-top: 0.75em; }
+@media (prefers-reduced-motion: reduce) { .heading-anchor { transition: none; } }

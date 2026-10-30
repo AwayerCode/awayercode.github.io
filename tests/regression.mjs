@@ -40,6 +40,8 @@ try {
         const html = read(page);
         assert.match(html, /lang="zh-CN"/);
         assert.match(html, /<html[^>]*class="dark /);
+        assert.match(html, /<link rel="alternate" type="application\/rss\+xml" href="\/rss.xml"/);
+        assert.match(html, /<nav class="site-footer-nav[^"]*"[^>]*aria-label="页脚导航"[\s\S]*?href="\/blog"[\s\S]*?href="\/rss.xml"/);
         assert.match(html, /id="language-toggle"/);
         assert.match(html, /data-i18n-en="(?:Posts|Projects|Tags)"/);
         assert.doesNotMatch(html, /RULE\.md|src\/content\/|dante-preview|example\.com/);
@@ -83,6 +85,13 @@ try {
     assert.doesNotMatch(tocHtml, /href="#too-deep"/);
     assert.match(tocHtml, /<aside class="post-toc-rail[^"]*"[^>]*>\s*<div class="post-toc[^"]*" data-post-toc/);
     assert.doesNotMatch(tocHtml, /<details|<summary/);
+    assert.match(tocHtml, /data-post-meta[\s\S]*?<time[\s\S]*?data-reading-time="1"[\s\S]*?约 1 分钟[\s\S]*?<h1/);
+    assert.match(tocHtml, /data-i18n-en="1 min read"/);
+    assert.match(tocHtml, /— END —[\s\S]*?class="author-name[^"]*"[^>]*>Awayer</);
+    const latestHtml = tocHtml.slice(tocHtml.indexOf('class="latest-posts'));
+    const latestLinks = [...latestHtml.slice(0, latestHtml.indexOf('</nav>')).matchAll(/href="(\/blog\/[^"]+)"/g)].map((m) => m[1]);
+    assert.ok(latestLinks.length > 0 && latestLinks.length <= 3, `latest posts count ${latestLinks.length}`);
+    assert.ok(!latestLinks.includes('/blog/toc-fixture/'), 'latest posts must exclude current post');
     assert.doesNotMatch(read('blog/entry-1/index.html'), /class="post-toc-rail/);
     assert.doesNotMatch(read('blog/entry-1/index.html'), /<button[^>]*data-toc-fab|<dialog[^>]*data-toc-sheet/);
     assert.match(tocHtml, /<button[^>]*data-toc-fab[^>]*aria-label="打开目录"/);
@@ -97,6 +106,8 @@ try {
     assert.match(tocCss, /@media\s*\(min-width:\s*1280px\)\{\.post-toc-rail\[[^\]]+\]\{display:block/, 'TOC shown only at >=1280px');
     assert.match(tocCss, /@media\s*\(min-width:\s*1280px\)\{\.toc-mobile\[[^\]]+\]\{display:none\}/, 'Mobile TOC button hidden at >=1280px');
     assert.match(tocCss, /safe-area-inset-bottom/);
+    assert.match(tocCss, /\.heading-anchor/);
+    assert.match(tocCss, /html\.dark\{[^}]*--bg-main:#12110e/);
     assert.match(tocCss, /prefers-reduced-motion/);
     rmSync(tocFile);
     assert.doesNotMatch(read('index.html'), /查看全部文章/);
