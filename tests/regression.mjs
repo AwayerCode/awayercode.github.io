@@ -107,7 +107,7 @@ try {
     assert.match(tocCss, /@media\s*\(min-width:\s*1280px\)\{\.toc-mobile\[[^\]]+\]\{display:none\}/, 'Mobile TOC button hidden at >=1280px');
     assert.match(tocCss, /safe-area-inset-bottom/);
     assert.match(tocCss, /\.heading-anchor/);
-    assert.match(tocCss, /html\.dark\{[^}]*--bg-main:#12110e/);
+    assert.match(tocCss, /html\.dark\{[^}]*--bg-main:#111111/);
     assert.match(tocCss, /prefers-reduced-motion/);
     rmSync(tocFile);
     assert.doesNotMatch(read('index.html'), /查看全部文章/);
