@@ -68,3 +68,10 @@ html:has([data-post-article]) body {
 [data-post-article] .article-body blockquote p { margin: 0; }
 [data-post-article] .article-body blockquote p + p { margin-top: 0.75em; }
 @media (prefers-reduced-motion: reduce) { .heading-anchor { transition: none; } }
+
+/* Keep footer content clear of the mobile TOC FAB (3.25rem + 1rem offset + 12px). */
+@media (max-width: 1279px) {
+    body:has([data-post-article]) footer {
+        padding-bottom: calc(4.25rem + 12px + env(safe-area-inset-bottom, 0px));
+    }
+}
