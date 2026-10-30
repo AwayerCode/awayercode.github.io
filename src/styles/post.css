@@ -3,21 +3,21 @@ html:has([data-post-article]) {
     /* Mono theme: orange is reserved for the top reading progress bar only. */
     --post-progress: #e08a4f;
     --post-accent: var(--post-ink);
-    --post-bg: #f7f5ef;
-    --post-ink: #17160f;
-    --post-body: #403e35;
-    --post-muted: #65626f;
-    --post-rule: rgba(23, 22, 15, 0.13);
+    --post-bg: #ffffff;
+    --post-ink: #171717;
+    --post-body: #404040;
+    --post-muted: #6b6b6b;
+    --post-rule: #e5e5e5;
     --font-post: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', 'Noto Sans CJK SC', sans-serif;
 }
 html.dark:has([data-post-article]) {
     --post-progress: #ffb867;
     --post-accent: var(--post-ink);
-    --post-bg: #12110e;
-    --post-ink: #ece8dd;
-    --post-body: #cbc6b8;
-    --post-muted: #9a97a6;
-    --post-rule: rgba(255, 255, 255, 0.12);
+    --post-bg: #111111;
+    --post-ink: #e6e6e6;
+    --post-body: #b3b3b3;
+    --post-muted: #8a8a8a;
+    --post-rule: #2a2a2a;
 }
 html:has([data-post-article]) body {
     background-color: var(--post-bg);
