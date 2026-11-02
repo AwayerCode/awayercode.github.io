@@ -107,6 +107,8 @@ try {
     const tocCss = readdirSync(join(temp, 'dist/_astro')).filter((f) => f.endsWith('.css')).map((f) => read(`_astro/${f}`)).join('\n');
     assert.match(tocCss, /\.post-toc-rail\[[^\]]+\]\{display:none\}/, 'TOC must be hidden on narrow screens');
     assert.match(tocCss, /@media\s*\(min-width:\s*1280px\)\{\.post-toc-rail\[[^\]]+\]\{display:block/, 'TOC shown only at >=1280px');
+    assert.match(tocCss, /\.post-toc\[[^\]]+\]\{[^}]*padding-top:\.?0?\.25rem/, 'Sticky TOC needs top padding so title glyphs are not clipped');
+    assert.match(tocCss, /\.post-toc-title\[[^\]]+\]\{[^}]*line-height:1\.5/, 'TOC title needs line-height so Chinese glyphs are not clipped');
     assert.match(tocCss, /@media\s*\(min-width:\s*1280px\)\{\.toc-mobile\[[^\]]+\]\{display:none\}/, 'Mobile TOC button hidden at >=1280px');
     assert.match(tocCss, /safe-area-inset-bottom/);
     assert.match(tocCss, /\.heading-anchor/);
