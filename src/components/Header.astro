@@ -1,4 +1,5 @@
 ---
+import { i18n } from '../utils/i18n';
 import siteConfig from '../data/site-config';
 import { Image } from 'astro:assets';
 import CustomImage from './CustomImage.astro';
@@ -42,7 +43,7 @@ const titleClass = 'text-[28px] leading-tight font-semibold';
                 </a>
             )
         }
-        {siteConfig.subtitle && <p class="text-sm leading-relaxed text-secondary">{siteConfig.subtitle}</p>}
+        {siteConfig.subtitle && <p class="text-sm leading-relaxed text-secondary" {...i18n(siteConfig.subtitle)}>{siteConfig.subtitle}</p>}
     </div>
 </header>
 

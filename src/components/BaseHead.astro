@@ -23,7 +23,7 @@ const { description = '', pageType = 'website' } = Astro.props;
 const title = [Astro.props.title, siteConfig.title].filter(Boolean).join(' | ');
 const titleEn = [Astro.props.titleEn ?? translate(Astro.props.title ?? ''), siteConfig.title].filter(Boolean).join(' | ');
 const descriptionEn = Astro.props.descriptionEn ?? translate(description);
-const image = Astro.props.image ?? siteConfig.image;
+const image = Astro.props.image ?? siteConfig.image ?? { src: '/og-image.png', alt: 'Awayer' };
 let resolvedImage: { src: string; alt?: string } | undefined;
 if (image?.src) {
     if (typeof image.src === 'string') {
@@ -72,7 +72,13 @@ function formatCanonicalURL(url: string | URL) {
 <link rel="preload" as="font" type="font/woff2" href={interWoff2} crossorigin="anonymous" />
 
 <!-- Low Priority Global Metadata -->
+<link rel="icon" href="/favicon.ico" sizes="any" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<meta name="theme-color" content="#0B0B0C" />
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link rel="alternate" type="application/rss+xml" href="/rss.xml" title="RSS" />
 
