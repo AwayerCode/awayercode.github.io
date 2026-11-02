@@ -42,6 +42,7 @@ try {
         assert.match(html, /<html[^>]*class="dark /);
         assert.match(html, /<link rel="alternate" type="application\/rss\+xml" href="\/rss.xml"/);
         assert.match(html, /<nav class="site-footer-social[^"]*"[^>]*aria-label="社交链接"[\s\S]*?href="https:\/\/x\.com\/awayer2026"[\s\S]*?href="https:\/\/github\.com\/AwayerCode"[\s\S]*?href="\/rss\.xml"/);
+        assert.match(html, /site-footer-row[\s\S]*?site-footer-social[\s\S]*?©\s*2026\s*Awayer/);
         assert.doesNotMatch(html, /site-footer-nav/);
         assert.match(html, /id="language-toggle"/);
         assert.match(html, /data-i18n-en="(?:Posts|Projects|Tags)"/);
@@ -88,7 +89,9 @@ try {
     assert.doesNotMatch(tocHtml, /<details|<summary/);
     assert.match(tocHtml, /data-post-meta[\s\S]*?<time[\s\S]*?data-reading-time="1"[\s\S]*?约 1 分钟[\s\S]*?<h1/);
     assert.match(tocHtml, /data-i18n-en="1 min read"/);
-    assert.match(tocHtml, /— END —[\s\S]*?class="author-name[^"]*"[^>]*>Awayer</);
+    assert.doesNotMatch(tocHtml, /—\s*END\s*—|「END」/);
+    assert.match(tocHtml, /class="author-name[^"]*"[^>]*>Awayer</);
+    assert.match(tocHtml, /Agents make it possible\. Harness makes it reliable\./);
     assert.doesNotMatch(tocHtml, /latest-posts|最新文章|Latest posts/);
     assert.doesNotMatch(tocHtml, /class="[^"]*copy-article-button[^"]*"[\s\S]*?#/);
     assert.match(tocHtml, /copy-article-button/);
