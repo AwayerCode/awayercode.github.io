@@ -2,9 +2,9 @@
 html:has([data-post-article]) {
     /* Mono theme: orange is reserved for the top reading progress bar only. */
     --post-progress: #e08a4f;
-    --post-accent: var(--post-ink);
+    --post-accent: #e08a4f;
     --post-bg: #ffffff;
-    --post-ink: #171717;
+    --post-ink: #0b0b0c;
     --post-body: #404040;
     --post-muted: #6b6b6b;
     --post-rule: #e5e5e5;
@@ -12,8 +12,8 @@ html:has([data-post-article]) {
 }
 html.dark:has([data-post-article]) {
     --post-progress: #ffb867;
-    --post-accent: var(--post-ink);
-    --post-bg: #111111;
+    --post-accent: #ffb867;
+    --post-bg: #0b0b0c;
     --post-ink: #e6e6e6;
     --post-body: #d4d4d4;
     --post-muted: #8a8a8a;
@@ -25,11 +25,14 @@ html:has([data-post-article]) body {
     --text-main: var(--post-ink);
     --muted: var(--post-muted);
 }
-[data-post-article] h1 { font-family: var(--font-post); font-weight: 700; letter-spacing: 0; color: var(--post-ink); }
-[data-post-article] .article-body { font-family: var(--font-post); font-size: 16px; font-weight: 400; line-height: 1.8; letter-spacing: 0.02em; color: var(--post-body); }
+[data-post-article] h1 { font-family: var(--font-post); font-weight: 600; letter-spacing: 0; color: var(--post-ink); }
+[data-post-article] .article-body { font-family: var(--font-post); font-size: 16px; font-weight: 400; line-height: 1.7; letter-spacing: 0.02em; color: var(--post-body); }
 [data-post-article] .article-body :is(h2, h3, h4) { color: var(--post-ink); font-family: var(--font-post); letter-spacing: 0; }
 [data-post-article] .article-body p { margin-block: 0 1.25em; }
 @media (min-width: 640px) { [data-post-article] .article-body { font-size: 17px; } }
+html:lang(zh-CN) [data-post-article] .article-body { line-height: 1.8; }
+/* Chinese headings: real Noto Sans SC 700 (Latin stays Inter 600) */
+html:lang(zh-CN) [data-post-article] h1, html:lang(zh-CN) [data-post-article] .article-body :is(h2, h3, h4) { font-synthesis: none; }
 [data-post-article] .article-body h2 { font-size: 24px; line-height: 1.45; font-weight: 600; letter-spacing: 0; }
 [data-post-article] .article-body :not(pre) > code { font-size: 0.875em; letter-spacing: 0; }
 [data-post-article] .article-body pre, [data-post-article] .article-body pre code { font-size: 14px; line-height: 1.6; letter-spacing: 0; }

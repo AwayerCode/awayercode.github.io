@@ -24,7 +24,10 @@ const siteConfig: SiteConfig = {
         }
     ],
     footerNavLinks: [],
-    socialLinks: [],
+    socialLinks: [
+        { text: 'X', href: 'https://x.com/awayer2026' },
+        { text: 'GitHub', href: 'https://github.com/AwayerCode' }
+    ],
     subscribe: {
         enabled: false,
         title: '订阅更新',
