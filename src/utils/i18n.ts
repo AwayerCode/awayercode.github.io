@@ -12,7 +12,7 @@ const english: Record<string, string> = {
     '查看项目归档与相关展示内容。': 'Explore projects and their stories.',
     '按标签浏览文章内容。': 'Browse posts by tag.',
     '一个以中文内容为主的博客与项目展示站点。': 'A personal blog and project showcase.',
-    'AI Native 负责可能，Harness 负责可靠。': 'AI Native by nature. Harness by design.',
+    'Agent 负责可能，Harness 负责可靠。': 'Agents make it possible. Harness makes it reliable.',
     '分享': 'Share', '复制链接': 'Copy link', '已复制': 'Copied',
     '复制失败，请重试': 'Copy failed. Try again.', '主导航': 'Main navigation', '分页': 'Pagination'
 };

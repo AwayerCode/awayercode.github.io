@@ -3,7 +3,7 @@ import type { SiteConfig } from '../types';
 const siteConfig: SiteConfig = {
     website: 'https://awayercode.github.io',
     title: 'Awayer',
-    subtitle: 'AI Native 负责可能，Harness 负责可靠。',
+    subtitle: 'Agent 负责可能，Harness 负责可靠。',
     description: '一个以中文内容为主的博客与项目展示站点。',
     headerNavLinks: [
         {
