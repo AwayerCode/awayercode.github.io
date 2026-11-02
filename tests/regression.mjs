@@ -107,8 +107,10 @@ try {
     const tocCss = readdirSync(join(temp, 'dist/_astro')).filter((f) => f.endsWith('.css')).map((f) => read(`_astro/${f}`)).join('\n');
     assert.match(tocCss, /\.post-toc-rail\[[^\]]+\]\{display:none\}/, 'TOC must be hidden on narrow screens');
     assert.match(tocCss, /@media\s*\(min-width:\s*1280px\)\{\.post-toc-rail\[[^\]]+\]\{display:block/, 'TOC shown only at >=1280px');
-    assert.match(tocCss, /\.post-toc\[[^\]]+\]\{[^}]*padding-top:\.?0?\.25rem/, 'Sticky TOC needs top padding so title glyphs are not clipped');
-    assert.match(tocCss, /\.post-toc-title\[[^\]]+\]\{[^}]*line-height:1\.5/, 'TOC title needs line-height so Chinese glyphs are not clipped');
+    assert.match(tocCss, /\.post-toc\[[^\]]+\]\{[^}]*overflow:visible/, 'Sticky TOC shell must not clip the title');
+    assert.match(tocCss, /\.post-toc-nav\[[^\]]+\]\{[^}]*overflow-y:auto/, 'Only the TOC nav list scrolls');
+    assert.match(tocCss, /\.post-toc-title\[[^\]]+\]\{[^}]*line-height:1\.6/, 'TOC title keeps a CJK-safe line-height');
+    assert.match(tocHtml, /class="post-toc[^"]*"[^>]*>\s*<p class="post-toc-title[^"]*"[\s\S]*?<nav class="post-toc-nav/, 'TOC title must sit outside the scrolling nav');
     assert.match(tocCss, /@media\s*\(min-width:\s*1280px\)\{\.toc-mobile\[[^\]]+\]\{display:none\}/, 'Mobile TOC button hidden at >=1280px');
     assert.match(tocCss, /safe-area-inset-bottom/);
     assert.match(tocCss, /\.heading-anchor/);
@@ -116,7 +118,7 @@ try {
     assert.match(tocCss, /prefers-reduced-motion/);
     rmSync(tocFile);
     assert.doesNotMatch(read('index.html'), /查看全部文章/);
-    assert.match(read('index.html'), /查看全部项目/);
+    assert.doesNotMatch(read('index.html'), /查看全部项目|View all projects/);
     const tagDirs = readdirSync(join(temp, 'dist/tags'), { withFileTypes: true }).filter((entry) => entry.isDirectory());
     assert.equal(tagDirs.length, labels.length);
     for (const dir of tagDirs) {
