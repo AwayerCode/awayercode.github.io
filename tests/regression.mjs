@@ -110,6 +110,9 @@ try {
     assert.match(tocCss, /\.post-toc\[[^\]]+\]\{[^}]*overflow:visible/, 'Sticky TOC shell must not clip the title');
     assert.match(tocCss, /\.post-toc-nav\[[^\]]+\]\{[^}]*overflow-y:auto/, 'Only the TOC nav list scrolls');
     assert.match(tocCss, /\.post-toc-title\[[^\]]+\]\{[^}]*line-height:1\.6/, 'TOC title keeps a CJK-safe line-height');
+    assert.match(tocCss, /\.post-toc-rail\[[^\]]+\]\{[^}]*width:12\.5rem/, 'TOC rail width must fit beside max-w-3xl at 1280px');
+    assert.match(tocCss, /\.post-toc-rail\[[^\]]+\]\{[^}]*margin:0 1\.75rem 0 0/, 'TOC rail margin must leave side-space headroom');
+    assert.match(tocCss, /\.post-toc\[[^\]]+\]\{[^}]*padding:[^}]*\.625rem/, 'Sticky TOC keeps left padding so glyphs are not flush-clipped');
     assert.match(tocHtml, /class="post-toc[^"]*"[^>]*>\s*<p class="post-toc-title[^"]*"[\s\S]*?<nav class="post-toc-nav/, 'TOC title must sit outside the scrolling nav');
     assert.match(tocCss, /@media\s*\(min-width:\s*1280px\)\{\.toc-mobile\[[^\]]+\]\{display:none\}/, 'Mobile TOC button hidden at >=1280px');
     assert.match(tocCss, /safe-area-inset-bottom/);
