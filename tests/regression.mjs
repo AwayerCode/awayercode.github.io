@@ -41,7 +41,8 @@ try {
         assert.match(html, /lang="zh-CN"/);
         assert.match(html, /<html[^>]*class="dark /);
         assert.match(html, /<link rel="alternate" type="application\/rss\+xml" href="\/rss.xml"/);
-        assert.match(html, /<nav class="site-footer-nav[^"]*"[^>]*aria-label="页脚导航"[\s\S]*?href="\/blog"[\s\S]*?href="\/rss.xml"/);
+        assert.match(html, /<nav class="site-footer-social[^"]*"[^>]*aria-label="社交链接"[\s\S]*?href="https:\/\/x\.com\/awayer2026"[\s\S]*?href="https:\/\/github\.com\/AwayerCode"[\s\S]*?href="\/rss\.xml"/);
+        assert.doesNotMatch(html, /site-footer-nav/);
         assert.match(html, /id="language-toggle"/);
         assert.match(html, /data-i18n-en="(?:Posts|Projects|Tags)"/);
         assert.doesNotMatch(html, /RULE\.md|src\/content\/|dante-preview|example\.com/);
