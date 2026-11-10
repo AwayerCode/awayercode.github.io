@@ -10,5 +10,8 @@ export default defineConfig({
     vite: {
         plugins: [tailwindcss()]
     },
-    integrations: [mdx(), sitemap()]
+    integrations: [mdx(), sitemap()],
+    redirects: {
+        '/projects/harn': '/projects/reedharness/'
+    }
 });
