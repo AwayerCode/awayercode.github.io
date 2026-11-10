@@ -1,5 +1,5 @@
 ---
-title: Harn
+title: ReedHarness
 description: 面向 AI 编程 Agent 的软件工程 Harness：用 YAML 定义架构，用 CLI 检查设计与实现。
 publishDate: 2026-10-04
 isFeatured: true
@@ -9,13 +9,13 @@ isFeatured: true
 
 > 用 YAML 定义架构，用 CLI 校验设计与实现。
 
-Harn 通过 SWE Skill 指导 Agent 完成业务建模、系统设计、代码实现、测试和交付，让代码改动遵循明确的模块边界与依赖规则，并提供可核验的检查结果。
+ReedHarness 通过 SWE Skill 指导 Agent 完成业务建模、系统设计、代码实现、测试和交付，让代码改动遵循明确的模块边界与依赖规则，并提供可核验的检查结果。
 
-## 为什么需要 Harn
+## 为什么需要 ReedHarness
 
 Agent 能快速编写代码，但架构约定如果只停留在文字里，目录、模块职责和依赖关系就容易在持续修改中发生偏离。测试通过也不代表代码遵守了设计边界。
 
-Harn 将架构约束写入 `system-design.yaml`，让设计和代码有共同的检查依据：哪些模块存在、文件放在哪里、允许依赖谁，都可以显式声明并校验。Skill 提供专业方法与任务边界，项目已有测试和构建继续验证实际行为。
+ReedHarness 将架构约束写入 `system-design.yaml`，让设计和代码有共同的检查依据：哪些模块存在、文件放在哪里、允许依赖谁，都可以显式声明并校验。Skill 提供专业方法与任务边界，项目已有测试和构建继续验证实际行为。
 
 ## 工作方式
 
@@ -31,4 +31,4 @@ Harn 将架构约束写入 `system-design.yaml`，让设计和代码有共同的
 
 SWE 统一安装，按任务选择业务模型、系统设计、代码实现、测试或发布交付五个领域。`swe-cli` 提供 YAML 架构、文档、产物关系、目录结构和改动范围检查。源码依赖由可选语言适配器检查，当前内置 Go、TypeScript 和 C++。
 
-源码与说明见 [AwayerCode/Harn](https://github.com/AwayerCode/Harn)。
+源码与说明见 [AwayerCode/ReedHarness](https://github.com/AwayerCode/ReedHarness)。
